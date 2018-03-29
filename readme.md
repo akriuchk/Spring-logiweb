@@ -11,3 +11,19 @@ Used technologies:
 - JPA: 2.0
 - Spring Framework
 - JSP
+
+Deploy on local tomcat with tomcat7:deploy
+
+## 2 kinds of API:
+
+<server>/ - html view
+
+<server>/api - rest view
+
+
+
+## Rest api
+
+/api - root
+
+/api/trucks - list of all trucks

@@ -16,14 +16,13 @@ public class RestApi {
     @Autowired
     private TruckService truckService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String helloWorld() {
-        return "hello";
+    @RequestMapping(method = RequestMethod.GET)
+    public String getHello() {
+        return "Hello there!";
     }
 
     @RequestMapping(value = "/trucks", method = RequestMethod.GET)
     public List<Truck> getAllTrucks() {
         return truckService.getAll();
     }
-
 }
