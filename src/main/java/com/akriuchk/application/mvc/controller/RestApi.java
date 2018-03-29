@@ -14,7 +14,12 @@ import java.util.List;
 public class RestApi {
 
     @Autowired
-    TruckService truckService;
+    private TruckService truckService;
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String helloWorld() {
+        return "hello";
+    }
 
     @RequestMapping(value = "/trucks", method = RequestMethod.GET)
     public List<Truck> getAllTrucks() {

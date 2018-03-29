@@ -2,10 +2,12 @@ package com.akriuchk.application.mvc.model.persistence.repository;
 
 
 import com.akriuchk.application.mvc.model.persistence.servicePOJOs.Truck;
+import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Repository
 public class TruckRepository {
     private static List<Truck> truckRepo = Arrays.asList(
             new Truck("7PPDUAVC", 2, 20, "new", "Saint-Petersburg"),
