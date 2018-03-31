@@ -1,7 +1,7 @@
-package com.akriuchk.application.mvc.controller;
+package com.akriuchk.application.controller.rest;
 
-import com.akriuchk.application.mvc.model.persistence.servicePOJOs.Truck;
-import com.akriuchk.application.mvc.model.service.TruckService;
+import com.akriuchk.application.truck.Truck;
+import com.akriuchk.application.truck.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

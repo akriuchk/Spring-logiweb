@@ -1,7 +1,5 @@
-package com.akriuchk.application.mvc.model.service;
+package com.akriuchk.application.truck;
 
-import com.akriuchk.application.mvc.model.persistence.repository.TruckRepository;
-import com.akriuchk.application.mvc.model.persistence.servicePOJOs.Truck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

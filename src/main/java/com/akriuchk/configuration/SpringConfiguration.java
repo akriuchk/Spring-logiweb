@@ -1,7 +1,5 @@
 package com.akriuchk.configuration;
 
-import com.akriuchk.application.mvc.controller.RestApi;
-import com.akriuchk.application.mvc.model.service.TruckService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +10,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.akriuchk.application.mvc")
+@ComponentScan(basePackages = "com.akriuchk.application")
 public class SpringConfiguration {
 
 //    @Bean

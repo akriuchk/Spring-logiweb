@@ -1,4 +1,4 @@
-package com.akriuchk.application.mvc.model.persistence.servicePOJOs;
+package com.akriuchk.application.truck;
 
 public class Truck {
 

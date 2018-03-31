@@ -1,7 +1,6 @@
-package com.akriuchk.application.mvc.model.persistence.repository;
+package com.akriuchk.application.truck;
 
 
-import com.akriuchk.application.mvc.model.persistence.servicePOJOs.Truck;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
@@ -21,5 +20,7 @@ public class TruckRepository {
     public static List<Truck> getTrucks() {
         return truckRepo;
     }
+
+//    public static
 
 }
