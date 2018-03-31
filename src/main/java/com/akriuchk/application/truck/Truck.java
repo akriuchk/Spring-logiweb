@@ -1,14 +1,18 @@
 package com.akriuchk.application.truck;
 
+import java.util.Objects;
+
 public class Truck {
 
+    private Long id;
     private final String registerNumber;
     private final int shiftSize;
     private int capacity;
     private String condition;
     private String currentCity;
 
-    public Truck(String registerNumber, int shiftSize, int initialCapacity, String initialCondition, String initialCity) {
+    public Truck(Long id, String registerNumber, int shiftSize, int initialCapacity, String initialCondition, String initialCity) {
+        this.id = id;
         this.registerNumber = registerNumber;
         this.shiftSize = shiftSize;
         this.capacity = initialCapacity;
@@ -48,5 +52,20 @@ public class Truck {
         this.currentCity = currentCity;
     }
 
-    //todo equal and hashcode!
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Truck truck = (Truck) o;
+        return Objects.equals(registerNumber, truck.registerNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(registerNumber, shiftSize, capacity, condition, currentCity);
+    }
 }

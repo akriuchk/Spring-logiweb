@@ -26,4 +26,22 @@ Deploy on local tomcat with tomcat7:deploy
 
 /api - root
 
-/api/trucks - list of all trucks
+/api/trucks/ - list of all trucks
+
+
+
+#/api/trucks
+
+"" - hello there
+
+GET  / - list of all trucks
+
+POST / - post new truck in format JSON:
+
+```json
+{"registerNumber": "7PPDUBAF","shiftSize": 2,"capacity": 20,"condition": "new","currentCity": "Saint-Petersburg"}
+```
+
+Success: 201 - created
+
+Failed: 406 - not acceptable
