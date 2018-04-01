@@ -24,24 +24,58 @@ Deploy on local tomcat with tomcat7:deploy
 
 ## Rest api
 
-/api - root
+<server>/api - root
 
-/api/trucks/ - list of all trucks
+<server>/api/trucks - trucks api
 
 
 
 #/api/trucks
 
-"" - hello there
+<server>/api/trucks - hello there
 
-GET  / - list of all trucks
+###GET
 
-POST / - post new truck in format JSON:
+<server>/api/trucks/ - list of all trucks
+
+<server>/api/trucks/{id} - get truck by its id 200:ok/404:not found
+
+###POST 
+
+<server>/api/trucks/ - post new truck in format JSON:
 
 ```json
-{"registerNumber": "7PPDUBAF","shiftSize": 2,"capacity": 20,"condition": "new","currentCity": "Saint-Petersburg"}
+{
+    "registerNumber": "7PPDUBAF",
+ 	"shiftSize": 2,
+ 	"capacity": 20,
+ 	"condition": "new",
+ 	"currentCity": "Saint-Petersburg"
+}
 ```
 
 Success: 201 - created
 
 Failed: 406 - not acceptable
+
+
+
+### PUT
+
+<server>/api/trucks/{id} - put here updated truck info in json - format see POST
+
+Success: 202 - accepted
+
+Failure: truck by id not found: 400 – Bad Request
+
+curl -X POST -H "Content-Type: application/json" -d '{"registerNumber": "7PPP12CF","shiftSize": 2,"capacity": 20,"condition": "new","currentCity": "Saint-Petersburg"}' "http://localhost:8090/api/trucks/" 
+
+
+
+### DELETE
+
+<server>/api/trucks/{id} - delete truck by requested id
+
+Success: 200 - OK
+
+Failure: 404 – Not Found

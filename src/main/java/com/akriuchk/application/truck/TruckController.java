@@ -1,12 +1,13 @@
 package com.akriuchk.application.truck;
 
+import com.akriuchk.application.controller.UpdateException;
 import com.akriuchk.application.controller.rest.NotAcceptedException;
+import com.akriuchk.application.controller.rest.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/trucks")
 public class TruckController {
+    private static final Logger log = LoggerFactory.getLogger(TruckController.class);
 
     private TruckService truckService;
 
@@ -34,17 +36,48 @@ public class TruckController {
         return truckService.getAll();
     }
 
+    @RequestMapping(value = "/{truckId}", method = RequestMethod.GET)
+    ResponseEntity<Truck> getTruckById(@PathVariable Long truckId) {
+        Truck truck = truckService.getTruck(truckId);
+        if (null != truck) {
+            return ResponseEntity.ok(truck);
+        } else {
+            throw new NotFoundException("Truck id[" + truckId + "] not found");
+        }
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     ResponseEntity addNewTruck(@RequestBody TruckDTO inputTruckDTO) {
         Long truckId;
         try {
             truckId = truckService.addTruck(inputTruckDTO);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
                     .buildAndExpand(truckId).toUri();
+            log.info("Generated URI for new truck id[{}]: {}", truckId, location);
             return ResponseEntity.created(location).build();
         } catch (ParseException e) {
             throw new NotAcceptedException(e.getMessage());
         }
+    }
 
+    @RequestMapping(value = "/{truckId}", method = RequestMethod.PUT)
+    ResponseEntity<Truck> updateTruck(@PathVariable Long truckId, @RequestBody TruckDTO inputTruckDTO) {
+        try {
+            Truck truck = truckService.updateTruck(truckId, inputTruckDTO);
+            return ResponseEntity.accepted().body(truck);
+        } catch (UpdateException e) {
+            throw e;
+        }
+    }
+
+    @RequestMapping(value = "/{truckId}", method = RequestMethod.DELETE)
+    ResponseEntity deleteTruck(@PathVariable Long truckId) {
+        try {
+            truckService.deleteTruck(truckId);
+        } catch (NotFoundException e) {
+            throw e;
+        }
+        return ResponseEntity.ok().build();
     }
 }

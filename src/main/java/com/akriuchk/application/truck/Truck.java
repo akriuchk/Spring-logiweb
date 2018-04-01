@@ -2,7 +2,7 @@ package com.akriuchk.application.truck;
 
 import java.util.Objects;
 
-public class Truck {
+public class Truck implements Comparable {
 
     private Long id;
     private final String registerNumber;
@@ -40,15 +40,15 @@ public class Truck {
         return currentCity;
     }
 
-    public void setCapacity(int capacity) {
+    public void updateCapacity(int capacity) {
         this.capacity = capacity;
     }
 
-    public void setCondition(String condition) {
+    public void updateCondition(String condition) {
         this.condition = condition;
     }
 
-    public void setCurrentCity(String currentCity) {
+    public void updateCurrentCity(String currentCity) {
         this.currentCity = currentCity;
     }
 
@@ -56,16 +56,35 @@ public class Truck {
         return id;
     }
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Truck truck = (Truck) o;
+//        return Objects.equals(registerNumber, truck.registerNumber);
+//    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Truck truck = (Truck) o;
-        return Objects.equals(registerNumber, truck.registerNumber);
+        return Objects.equals(id, truck.id) || (shiftSize == truck.shiftSize &&
+                capacity == truck.capacity &&
+                Objects.equals(registerNumber, truck.registerNumber) &&
+                Objects.equals(condition, truck.condition) &&
+                Objects.equals(currentCity, truck.currentCity));
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(registerNumber, shiftSize, capacity, condition, currentCity);
+    }
+
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }

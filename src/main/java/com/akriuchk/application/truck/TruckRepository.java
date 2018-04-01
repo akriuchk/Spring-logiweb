@@ -1,27 +1,23 @@
 package com.akriuchk.application.truck;
 
-
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Repository
 public class TruckRepository {
     private static List<Truck> truckRepo = Arrays.asList(
-            new Truck(new Random().nextLong(),"7PPDUAVC", 2, 20, "new", "Saint-Petersburg"),
-            new Truck(new Random().nextLong(),"XGTBW4BJ", 2, 20, "new", "Saint-Petersburg"),
-            new Truck(new Random().nextLong(),"TF8PLK8H", 2, 20, "new", "Saint-Petersburg"),
-            new Truck(new Random().nextLong(),"AYJ32ZAK", 2, 20, "new", "Saint-Petersburg"),
-            new Truck(new Random().nextLong(),"Y6WYZ5E8", 2, 20, "new", "Saint-Petersburg"),
-            new Truck(new Random().nextLong(),"P9VNMJ88", 2, 20, "new", "Saint-Petersburg")
+            new Truck(new Random().nextLong(), "7PPDUAVC", 2, 20, "new", "Saint-Petersburg"),
+            new Truck(new Random().nextLong(), "XGTBW4BJ", 2, 20, "new", "Saint-Petersburg"),
+            new Truck(new Random().nextLong(), "TF8PLK8H", 2, 20, "new", "Saint-Petersburg"),
+            new Truck(new Random().nextLong(), "AYJ32ZAK", 2, 20, "new", "Saint-Petersburg"),
+            new Truck(new Random().nextLong(), "Y6WYZ5E8", 2, 20, "new", "Saint-Petersburg"),
+            new Truck(new Random().nextLong(), "P9VNMJ88", 2, 20, "new", "Saint-Petersburg")
     );
     private static ArrayList<Truck> truckArrayList = new ArrayList<>(truckRepo);
 
     static List<Truck> getTrucks() {
-        return truckRepo;
+        return truckArrayList;
     }
 
     /**
@@ -40,6 +36,31 @@ public class TruckRepository {
         } else {
             return -1;
         }
+    }
+
+
+    static Truck getById(Long id) {
+        return truckArrayList.stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst().orElse(null);
+    }
+
+    static Truck replaceByID(Long id, Truck newTruck) {
+//        Optional<Truck> truck = truckArrayList.stream()
+//                .filter(t -> t.getId().equals(id))
+//                .findAny();
+//        if (truck.isPresent()) {
+        Truck truck = getById(id);
+        if (null != truck) {
+            int index = truckArrayList.indexOf(truck);
+            truckArrayList.set(index, newTruck);
+            return truckArrayList.get(index);
+        }
+        return truck;
+    }
+
+    static boolean deleteTruck(Truck truck) {
+        return truckArrayList.remove(truck);
     }
 
 }
