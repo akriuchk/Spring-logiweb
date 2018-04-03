@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Random;
 
 @Service
@@ -91,8 +90,10 @@ public class TruckService {
         truck = TruckRepository.replaceByID(id, newTruck);
 
         if (truck.equals(newTruck)) {
+            log.info("Truck id[{}] update success{}");
             return truck;
         } else {
+            log.info("Truck id[{}] update failed{}");
             throw new UpdateException("Update failed");
         }
     }
@@ -107,8 +108,11 @@ public class TruckService {
         log.info("Processing deletion request of Truck id[{}]", id);
         Truck truck = TruckRepository.getById(id);
         if (truck != null) {
-            return TruckRepository.deleteTruck(truck);
+            boolean isDeleted = TruckRepository.deleteTruck(truck);
+            log.info("Truck id[{}] deleted: {}", isDeleted);
+            return isDeleted;
         } else {
+            log.info("Truck id[{}] not found", id);
             throw new NotFoundException("Truck id[" + id + "] not found.");
         }
     }

@@ -78,6 +78,6 @@ public class TruckController {
         } catch (NotFoundException e) {
             throw e;
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

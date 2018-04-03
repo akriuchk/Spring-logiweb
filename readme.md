@@ -30,6 +30,10 @@ Deploy on local tomcat with tomcat7:deploy
 
 
 
+Reference: https://docs.apigee.com/api-baas/get-started/app-services-data-model-1
+
+
+
 #/api/trucks
 
 <server>/api/trucks - hello there
