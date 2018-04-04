@@ -100,6 +100,7 @@ public class TruckService {
 
     /**
      * delete truck from repository
+     *
      * @param id key to find truck
      * @return  result of repository method
      * @throws NotFoundException throw an error, if repository doesn't have requested truck
@@ -116,5 +117,4 @@ public class TruckService {
             throw new NotFoundException("Truck id[" + id + "] not found.");
         }
     }
-
 }

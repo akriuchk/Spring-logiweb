@@ -12,13 +12,23 @@ Used technologies:
 - Spring Framework
 - JSP
 
-Deploy on local tomcat with tomcat7:deploy
+Deploy on local tomcat with tomcat7:deploy goal
+
+tomcat url: http://localhost:8080/manager/text
+
+Launch sonar with sonar:sonar maven goal
+
+sonar url: http://192.168.1.100:9000
 
 ## 2 kinds of API:
 
 <server>/ - html view
 
 <server>/api - rest view
+
+
+
+
 
 
 
@@ -83,3 +93,6 @@ curl -X POST -H "Content-Type: application/json" -d '{"registerNumber": "7PPP12C
 Success: 200 - OK
 
 Failure: 404 – Not Found
+
+
+

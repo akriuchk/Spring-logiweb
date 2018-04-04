@@ -38,13 +38,25 @@ public class TruckRepository {
         }
     }
 
-
+    /**
+     * Method return Truck, found by its id or null
+     *
+     * @param id Truck id
+     * @return existed truck form repository or null
+     */
     static Truck getById(Long id) {
         return truckArrayList.stream()
                 .filter(t -> t.getId().equals(id))
                 .findFirst().orElse(null);
     }
 
+    /**
+     * Method to replace truck in repository by id with new truck
+     *
+     * @param id old Truck id
+     * @param newTruck new Truck object
+     * @return
+     */
     static Truck replaceByID(Long id, Truck newTruck) {
 //        Optional<Truck> truck = truckArrayList.stream()
 //                .filter(t -> t.getId().equals(id))

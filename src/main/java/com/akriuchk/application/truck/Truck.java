@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Truck implements Comparable {
 
-    private Long id;
-    private final String registerNumber;
+    private final Long id;
+    private String registerNumber;
     private final int shiftSize;
     private int capacity;
     private String condition;

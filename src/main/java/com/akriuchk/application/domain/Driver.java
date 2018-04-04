@@ -1,4 +1,4 @@
-package com.akriuchk.application.driver;
+package com.akriuchk.application.domain;
 
 public class Driver {
     private String firstName;
