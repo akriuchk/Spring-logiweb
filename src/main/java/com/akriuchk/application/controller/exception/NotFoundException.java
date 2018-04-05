@@ -1,4 +1,4 @@
-package com.akriuchk.application.controller.rest;
+package com.akriuchk.application.controller.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

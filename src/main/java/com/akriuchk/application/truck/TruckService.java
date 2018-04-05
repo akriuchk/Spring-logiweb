@@ -1,7 +1,7 @@
 package com.akriuchk.application.truck;
 
-import com.akriuchk.application.controller.UpdateException;
-import com.akriuchk.application.controller.rest.NotFoundException;
+import com.akriuchk.application.controller.exception.UpdateException;
+import com.akriuchk.application.controller.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -70,9 +70,9 @@ public class TruckService {
     /**
      * Update track parameters by it's id and passed truckDTO
      *
-     * @param id        key to find truck
-     * @param truckDTO  incoming DTO with updated parameters
-     * @return  updated Truck object
+     * @param id       key to find truck
+     * @param truckDTO incoming DTO with updated parameters
+     * @return updated Truck object
      * @throws UpdateException if no changes were made, throw and this exception
      */
     public Truck updateTruck(Long id, TruckDTO truckDTO) throws UpdateException {
@@ -102,10 +102,10 @@ public class TruckService {
      * delete truck from repository
      *
      * @param id key to find truck
-     * @return  result of repository method
+     * @return result of repository method
      * @throws NotFoundException throw an error, if repository doesn't have requested truck
      */
-    public boolean deleteTruck(Long id) throws NotFoundException{
+    public boolean deleteTruck(Long id) throws NotFoundException {
         log.info("Processing deletion request of Truck id[{}]", id);
         Truck truck = TruckRepository.getById(id);
         if (truck != null) {
@@ -116,5 +116,13 @@ public class TruckService {
             log.info("Truck id[{}] not found", id);
             throw new NotFoundException("Truck id[" + id + "] not found.");
         }
+    }
+
+    public List<Truck> findTruckByCapacity(double cargoMaxWeightKg) {
+        double cargoMaxWeightTonnes = cargoMaxWeightKg * 0.001;
+        log.info("Search Truck for required capacity: {} (t)", cargoMaxWeightTonnes);
+        List<Truck> foundTrucks = TruckRepository.getByStateCapacityFree("new", cargoMaxWeightTonnes);
+        log.info("Found [{}] Trucks with capacity for order weight {} (t)",foundTrucks.size(), cargoMaxWeightTonnes);
+        return foundTrucks;
     }
 }

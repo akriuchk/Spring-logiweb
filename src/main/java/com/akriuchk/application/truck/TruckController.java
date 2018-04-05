@@ -1,8 +1,8 @@
 package com.akriuchk.application.truck;
 
-import com.akriuchk.application.controller.UpdateException;
-import com.akriuchk.application.controller.rest.NotAcceptedException;
-import com.akriuchk.application.controller.rest.NotFoundException;
+import com.akriuchk.application.controller.exception.UpdateException;
+import com.akriuchk.application.controller.exception.NotAcceptedException;
+import com.akriuchk.application.controller.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +26,12 @@ public class TruckController {
         this.truckService = truckService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     String getHello() {
         return "Hello there!";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     List<Truck> getAllTrucks() {
         return truckService.getAll();
     }
@@ -79,5 +79,11 @@ public class TruckController {
             throw e;
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    ResponseEntity<List<Truck>> getTruckByMinCapacity(@RequestParam int minCapacityKg) {
+        List<Truck> foundTrucks = truckService.findTruckByCapacity(minCapacityKg);
+        return ResponseEntity.ok().body(foundTrucks);
     }
 }

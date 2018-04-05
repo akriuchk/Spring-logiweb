@@ -3,15 +3,16 @@ package com.akriuchk.application.truck;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class TruckRepository {
     private static List<Truck> truckRepo = Arrays.asList(
-            new Truck(new Random().nextLong(), "7PPDUAVC", 2, 20, "new", "Saint-Petersburg"),
-            new Truck(new Random().nextLong(), "XGTBW4BJ", 2, 20, "new", "Saint-Petersburg"),
-            new Truck(new Random().nextLong(), "TF8PLK8H", 2, 20, "new", "Saint-Petersburg"),
-            new Truck(new Random().nextLong(), "AYJ32ZAK", 2, 20, "new", "Saint-Petersburg"),
-            new Truck(new Random().nextLong(), "Y6WYZ5E8", 2, 20, "new", "Saint-Petersburg"),
+            new Truck(new Random().nextLong(), "7PPDUAVC", 2, 5, "new", "Saint-Petersburg"),
+            new Truck(new Random().nextLong(), "XGTBW4BJ", 2, 7, "new", "Saint-Petersburg"),
+            new Truck(new Random().nextLong(), "TF8PLK8H", 2, 10, "new", "Saint-Petersburg"),
+            new Truck(new Random().nextLong(), "AYJ32ZAK", 2, 12, "new", "Saint-Petersburg"),
+            new Truck(new Random().nextLong(), "Y6WYZ5E8", 2, 15, "new", "Saint-Petersburg"),
             new Truck(new Random().nextLong(), "P9VNMJ88", 2, 20, "new", "Saint-Petersburg")
     );
     private static ArrayList<Truck> truckArrayList = new ArrayList<>(truckRepo);
@@ -73,6 +74,13 @@ public class TruckRepository {
 
     static boolean deleteTruck(Truck truck) {
         return truckArrayList.remove(truck);
+    }
+
+    static List<Truck> getByStateCapacityFree(String condition, double capacity) {
+        return truckArrayList.stream()
+                .filter(truck -> truck.getCondition().equals(condition) && truck.getCapacity() >= capacity)
+                .limit(5)
+                .collect(Collectors.toList());
     }
 
 }

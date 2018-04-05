@@ -38,7 +38,7 @@ sonar url: http://192.168.1.100:9000
 
 <server>/api/trucks - trucks api
 
-
+Tbd: authentification, pagination, better error handling
 
 Reference: https://docs.apigee.com/api-baas/get-started/app-services-data-model-1
 
@@ -46,25 +46,27 @@ Reference: https://docs.apigee.com/api-baas/get-started/app-services-data-model-
 
 #/api/trucks
 
-<server>/api/trucks - hello there
+<server>/api/trucks/ - hello there
 
-###GET
+### GET
 
-<server>/api/trucks/ - list of all trucks
+<server>/api/trucks - list of all trucks
 
 <server>/api/trucks/{id} - get truck by its id 200:ok/404:not found
 
-###POST 
+<server>/api/trucks/search?minCapacityKg=<weight> - get list of Trucks by minimal required capacity. 200:ok/
+
+### POST 
 
 <server>/api/trucks/ - post new truck in format JSON:
 
 ```json
 {
-    "registerNumber": "7PPDUBAF",
- 	"shiftSize": 2,
- 	"capacity": 20,
- 	"condition": "new",
- 	"currentCity": "Saint-Petersburg"
+  "registerNumber": "7PPDUBAF",
+  "shiftSize": 2,
+  "capacity": 20,
+  "condition": "new",
+  "currentCity": "Saint-Petersburg"
 }
 ```
 
@@ -82,7 +84,12 @@ Success: 202 - accepted
 
 Failure: truck by id not found: 400 – Bad Request
 
+
+
+```Curl
 curl -X POST -H "Content-Type: application/json" -d '{"registerNumber": "7PPP12CF","shiftSize": 2,"capacity": 20,"condition": "new","currentCity": "Saint-Petersburg"}' "http://localhost:8090/api/trucks/" 
+```
+
 
 
 
