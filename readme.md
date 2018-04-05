@@ -1,4 +1,4 @@
-## Logistic web service
+# Logistic web service
 
 Backend used for processing all related processes
 
@@ -12,11 +12,12 @@ Used technologies:
 - Spring Framework
 - JSP
 
-Deploy on local tomcat with tomcat7:deploy goal
+## Usage:
+Deploy on local tomcat with __tomcat7:deploy__ goal
 
-tomcat url: http://localhost:8080/manager/text
+tomcat url: http://localhost:8080/manager/text, credentials are from local maven's settings.xml
 
-Launch sonar with sonar:sonar maven goal
+Launch sonar with __sonar:sonar__ maven goal
 
 sonar url: http://192.168.1.100:9000
 
@@ -44,7 +45,7 @@ Reference: https://docs.apigee.com/api-baas/get-started/app-services-data-model-
 
 
 
-#/api/trucks
+## /api/trucks
 
 <server>/api/trucks/ - hello there
 
