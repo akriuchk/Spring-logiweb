@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class TruckService {
@@ -24,7 +23,7 @@ public class TruckService {
         return truckList;
     }
 
-    public Truck getTruck(Long id) {
+    public Truck getTruckByID(Long id) {
         return TruckRepository.getById(id);
     }
 
@@ -32,10 +31,10 @@ public class TruckService {
      * Adding truck to the available after checking it's registration number
      *
      * @param truck truck to be added
-     * @return "1" - successfully, "-1" - failed, already registered
+     * @return "true" - successfully, "false" - failed, already registered
      * @throws ParseException truck number has invalid registration number
      */
-    public int addTruck(Truck truck) throws ParseException {
+    public Truck addTruck(Truck truck) throws ParseException {
         String truckNumber = truck.getRegisterNumber();
         if (!truckNumber.matches(validationRegex)) {
             log.info("[{}] does not matches validation regex {}", truckNumber, validationRegex);
@@ -52,19 +51,18 @@ public class TruckService {
      * @throws ParseException truck number has invalid registration number
      */
     public Long addTruck(TruckDTO truckDTO) throws ParseException {
-        Long id = new Random().nextLong();
-        id = (id < 0) ? id * (-1) : id;
-        log.info("Generated id for {} is {}", truckDTO.getRegisterNumber(), id);
+        log.info("Incoming new truck register number[{}]", truckDTO.getRegisterNumber());
 
-        Truck newTruck = new Truck(id, truckDTO.getRegisterNumber(),
+        Truck newTruck = new Truck(0L, truckDTO.getRegisterNumber(),
                 truckDTO.getShiftSize(),
                 truckDTO.getCapacity(),
                 truckDTO.getCondition(),
                 truckDTO.getCurrentCity());
-        if (addTruck(newTruck) == -1) {
+        long truckID = addTruck(newTruck).getId();
+        if (truckID == 0L) {
             throw new ParseException("Truck [" + truckDTO.getRegisterNumber() + "] already registered", 0);
         }
-        return id;
+        return truckID;
     }
 
     /**
@@ -118,11 +116,24 @@ public class TruckService {
         }
     }
 
+    /**
+     * find 5 new trucks with required capacity
+     *
+     * @param cargoMaxWeightKg weigth of cargo, which must be transfered
+     * @return List of 5 trucks, which have at least required capacity
+     */
     public List<Truck> findTruckByCapacity(double cargoMaxWeightKg) {
         double cargoMaxWeightTonnes = cargoMaxWeightKg * 0.001;
         log.info("Search Truck for required capacity: {} (t)", cargoMaxWeightTonnes);
-        List<Truck> foundTrucks = TruckRepository.getByStateCapacityFree("new", cargoMaxWeightTonnes);
-        log.info("Found [{}] Trucks with capacity for order weight {} (t)",foundTrucks.size(), cargoMaxWeightTonnes);
-        return foundTrucks;
+        String condition = "new";
+        List<Truck> foundTrucks = TruckRepository.getByStateCapacityFree(condition, cargoMaxWeightTonnes);
+        log.info("Found {} Trucks with capacity for order weight {} (t)", foundTrucks.size(), cargoMaxWeightTonnes);
+
+        if (foundTrucks.size() != 0) {
+            return foundTrucks;
+        } else {
+            throw new NotFoundException("No trucks found by parameters - condition:" + condition + "; capacity:" + cargoMaxWeightKg);
+
+        }
     }
 }

@@ -38,7 +38,7 @@ public class TruckController {
 
     @RequestMapping(value = "/{truckId}", method = RequestMethod.GET)
     ResponseEntity<Truck> getTruckById(@PathVariable Long truckId) {
-        Truck truck = truckService.getTruck(truckId);
+        Truck truck = truckService.getTruckByID(truckId);
         if (null != truck) {
             return ResponseEntity.ok(truck);
         } else {

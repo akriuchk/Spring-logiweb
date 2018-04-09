@@ -66,8 +66,9 @@ public class TruckDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TruckDTO truckDto = (TruckDTO) o;
-        return Objects.equals(registerNumber, truckDto.registerNumber);
+        TruckDTO truck = (TruckDTO) o;
+        return (shiftSize == truck.shiftSize &&
+                capacity == truck.capacity);
     }
 
     @Override

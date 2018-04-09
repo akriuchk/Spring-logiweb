@@ -27,15 +27,18 @@ public class TruckRepository {
      *
      * @param truck new truck to be added
      * @return code about result of addition
-     * return "1" - successfully
-     * return "-1" - truck already registered in repository
+     * return Truck: with ID != 0 - successfully
+     *               with ID == 0 - failed
      */
-    static int addTruck(Truck truck) {
+    static Truck addTruck(Truck truck) {
         if (!truckArrayList.contains(truck)) {
+            Long id = new Random().nextLong();
+            id = (id < 0) ? id * (-1) : id;
+            truck.setId(id);
             truckArrayList.add(truck);
-            return 1;
+            return truck;
         } else {
-            return -1;
+            return truck;
         }
     }
 
@@ -59,13 +62,9 @@ public class TruckRepository {
      * @return
      */
     static Truck replaceByID(Long id, Truck newTruck) {
-//        Optional<Truck> truck = truckArrayList.stream()
-//                .filter(t -> t.getId().equals(id))
-//                .findAny();
-//        if (truck.isPresent()) {
         Truck truck = getById(id);
+        int index = truckArrayList.indexOf(truck);
         if (null != truck) {
-            int index = truckArrayList.indexOf(truck);
             truckArrayList.set(index, newTruck);
             return truckArrayList.get(index);
         }

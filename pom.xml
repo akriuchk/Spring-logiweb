@@ -17,6 +17,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!--URLs-->
+        <tomcat.host.url>http://localhost:8080/manager/text</tomcat.host.url>
         <sonar.host.url>http://192.168.1.100:9000</sonar.host.url>
     </properties>
 
@@ -42,6 +43,7 @@
             <artifactId>spring-context</artifactId>
             <version>${spring.framework.version}</version>
         </dependency>
+        <!-- Spring dependencies -->
 
         <!-- web libs -->
         <dependency>
@@ -59,6 +61,7 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.7.5</version>
         </dependency>
+        <!-- web libs -->
 
 
         <!-- logging -->
@@ -108,7 +111,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <url>http://localhost:8080/manager/text</url>
+                    <url>${tomcat.host.url}</url>
                     <server>tomcatServer9_0</server>
                     <path>/${project.artifactId}</path>
                 </configuration>

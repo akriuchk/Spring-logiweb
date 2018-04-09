@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Truck implements Comparable {
 
-    private final Long id;
+    private Long id;
     private String registerNumber;
     private final int shiftSize;
-    private int capacity;
+    private final int capacity;
     private String condition;
     private String currentCity;
 
@@ -40,10 +40,6 @@ public class Truck implements Comparable {
         return currentCity;
     }
 
-    public void updateCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
     public void updateCondition(String condition) {
         this.condition = condition;
     }
@@ -56,14 +52,21 @@ public class Truck implements Comparable {
         return id;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Truck truck = (Truck) o;
-//        return Objects.equals(registerNumber, truck.registerNumber);
-//    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public void setRegisterNumber(String registerNumber) {
+        this.registerNumber = registerNumber;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public void setCurrentCity(String currentCity) {
+        this.currentCity = currentCity;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -71,15 +74,12 @@ public class Truck implements Comparable {
         if (o == null || getClass() != o.getClass()) return false;
         Truck truck = (Truck) o;
         return Objects.equals(id, truck.id) || (shiftSize == truck.shiftSize &&
-                capacity == truck.capacity &&
-                Objects.equals(registerNumber, truck.registerNumber) &&
-                Objects.equals(condition, truck.condition) &&
-                Objects.equals(currentCity, truck.currentCity));
+                capacity == truck.capacity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(registerNumber, shiftSize, capacity, condition, currentCity);
+        return Objects.hash(id, shiftSize, capacity);
     }
 
 
