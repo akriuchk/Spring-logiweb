@@ -1,0 +1,10 @@
+CREATE TABLE `logiweb`.`Trucks` (
+  `id` INT NOT NULL,
+  `registerNumber` VARCHAR(45) NOT NULL,
+  `shiftSize` INT NOT NULL,
+  `capacity` INT NOT NULL,
+  `condition` VARCHAR(45) NOT NULL,
+  `currentCity` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));
+

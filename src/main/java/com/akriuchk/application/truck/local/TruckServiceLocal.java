@@ -1,38 +1,33 @@
-package com.akriuchk.application.truck;
+package com.akriuchk.application.truck.local;
 
-import com.akriuchk.application.controller.exception.UpdateException;
 import com.akriuchk.application.controller.exception.NotFoundException;
+import com.akriuchk.application.controller.exception.UpdateException;
+import com.akriuchk.application.truck.ITruckService;
+import com.akriuchk.application.truck.Truck;
+import com.akriuchk.application.truck.TruckDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.List;
 
-@Service
-@Transactional
-public class TruckService implements ITruckService {
-    private final Logger log = LoggerFactory.getLogger(TruckService.class);
+@Service("localService")
+public class TruckServiceLocal implements ITruckService{
+    private static final Logger log = LoggerFactory.getLogger(TruckServiceLocal.class);
     private static String validationRegex = "[A-Z0-9]{8}";
 
-    private TruckDao truckRepository;
 
-    @Autowired
-    public TruckService(TruckDao truckRepository) {
-        this.truckRepository = truckRepository;
+    public TruckServiceLocal() {
     }
 
-    @Override
     public List<Truck> getAll() {
-        List<Truck> truckList = truckRepository.findAllTrucks();
+        List<Truck> truckList = TruckRepository.getTrucks();
         return truckList;
     }
 
-    @Override
     public Truck getTruckByID(Long id) {
-        return truckRepository.getById(id);
+        return TruckRepository.getById(id);
     }
 
     /**
@@ -42,14 +37,13 @@ public class TruckService implements ITruckService {
      * @return "true" - successfully, "false" - failed, already registered
      * @throws ParseException truck number has invalid registration number
      */
-    @Override
     public void addTruck(Truck truck) throws ParseException {
         String truckNumber = truck.getRegisterNumber();
         if (!truckNumber.matches(validationRegex)) {
             log.info("[{}] does not matches validation regex {}", truckNumber, validationRegex);
             throw new ParseException("Truck registration number '" + truckNumber + "' is not valid", 0);
         }
-        truckRepository.saveTruck(truck);
+        return TruckRepository.addTruck(truck).getId();
     }
 
     /**
@@ -59,8 +53,7 @@ public class TruckService implements ITruckService {
      * @return ID of newly added truck
      * @throws ParseException truck number has invalid registration number
      */
-    @Override
-    public long addTruck(TruckDTO truckDTO) throws ParseException {
+    public Long addTruck(TruckDTO truckDTO) throws ParseException {
         log.info("Incoming new truck register number[{}]", truckDTO.getRegisterNumber());
 
         Truck newTruck = new Truck(0L, truckDTO.getRegisterNumber(),
@@ -68,8 +61,11 @@ public class TruckService implements ITruckService {
                 truckDTO.getCapacity(),
                 truckDTO.getCondition(),
                 truckDTO.getCurrentCity());
-        addTruck(newTruck);
-        return newTruck.getId();
+        long truckID = addTruck(newTruck).getId();
+        if (truckID == 0L) {
+            throw new ParseException("Truck [" + truckDTO.getRegisterNumber() + "] already registered", 0);
+        }
+        return truckID;
     }
 
     /**
@@ -80,20 +76,27 @@ public class TruckService implements ITruckService {
      * @return updated Truck object
      * @throws UpdateException if no changes were made, throw and this exception
      */
-    @Override
     public Truck updateTruck(Long id, TruckDTO truckDTO) throws UpdateException {
         log.info("Processing truck id[{}] update request", id);
         //todo validate incoming request with parameters types
-        Truck truck = truckRepository.getById(id);
+        Truck truck = TruckRepository.getById(id);
         if (null == truck) {
             throw new UpdateException("Truck id[" + id + "] not found.");
         }
+        Truck newTruck = new Truck(id, truckDTO.getRegisterNumber(),
+                truckDTO.getShiftSize(),
+                truckDTO.getCapacity(),
+                truckDTO.getCondition(),
+                truckDTO.getCurrentCity());
+        truck = TruckRepository.replaceByID(id, newTruck);
 
-        truck.setCondition(truckDTO.getCondition());
-        truck.setCurrentCity(truckDTO.getCurrentCity());
-        truck.setRegisterNumber(truckDTO.getRegisterNumber());
-
-        return truck;
+        if (truck.equals(newTruck)) {
+            log.info("Truck id[{}] update success{}");
+            return truck;
+        } else {
+            log.info("Truck id[{}] update failed{}");
+            throw new UpdateException("Update failed");
+        }
     }
 
     /**
@@ -103,11 +106,17 @@ public class TruckService implements ITruckService {
      * @return result of repository method
      * @throws NotFoundException throw an error, if repository doesn't have requested truck
      */
-    @Override
     public boolean deleteTruck(Long id) throws NotFoundException {
         log.info("Processing deletion request of Truck id[{}]", id);
-        truckRepository.deleteTruckBySsn(id);
-        return true;
+        Truck truck = TruckRepository.getById(id);
+        if (truck != null) {
+            boolean isDeleted = TruckRepository.deleteTruck(truck);
+            log.info("Truck id[{}] deleted: {}", isDeleted);
+            return isDeleted;
+        } else {
+            log.info("Truck id[{}] not found", id);
+            throw new NotFoundException("Truck id[" + id + "] not found.");
+        }
     }
 
     /**
@@ -116,11 +125,18 @@ public class TruckService implements ITruckService {
      * @param cargoMaxWeightKg weigth of cargo, which must be transfered
      * @return List of 5 trucks, which have at least required capacity
      */
-    @Override
     public List<Truck> findTruckByCapacity(double cargoMaxWeightKg) {
         double cargoMaxWeightTonnes = cargoMaxWeightKg * 0.001;
         log.info("Search Truck for required capacity: {} (t)", cargoMaxWeightTonnes);
+        String condition = "new";
+        List<Truck> foundTrucks = TruckRepository.getByStateCapacityFree(condition, cargoMaxWeightTonnes);
+        log.info("Found {} Trucks with capacity for order weight {} (t)", foundTrucks.size(), cargoMaxWeightTonnes);
 
-        return truckRepository.findTrucksByCapacity(cargoMaxWeightTonnes);
+        if (foundTrucks.size() != 0) {
+            return foundTrucks;
+        } else {
+            throw new NotFoundException("No trucks found by parameters - condition:" + condition + "; capacity:" + cargoMaxWeightKg);
+
+        }
     }
 }

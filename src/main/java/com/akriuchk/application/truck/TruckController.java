@@ -19,10 +19,10 @@ import java.util.List;
 public class TruckController {
     private static final Logger log = LoggerFactory.getLogger(TruckController.class);
 
-    private TruckService truckService;
+    private TruckDao truckService;
 
     @Autowired
-    TruckController(TruckService truckService) {
+    TruckController(TruckDao truckService) {
         this.truckService = truckService;
     }
 
@@ -33,12 +33,12 @@ public class TruckController {
 
     @RequestMapping(method = RequestMethod.GET)
     List<Truck> getAllTrucks() {
-        return truckService.getAll();
+        return truckService.findAllTrucks();
     }
 
     @RequestMapping(value = "/{truckId}", method = RequestMethod.GET)
     ResponseEntity<Truck> getTruckById(@PathVariable Long truckId) {
-        Truck truck = truckService.getTruckByID(truckId);
+        Truck truck = truckService.getById(truckId);
         if (null != truck) {
             return ResponseEntity.ok(truck);
         } else {
@@ -46,25 +46,25 @@ public class TruckController {
         }
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    ResponseEntity addNewTruck(@RequestBody TruckDTO inputTruckDTO) {
-        Long truckId;
-        try {
-            truckId = truckService.addTruck(inputTruckDTO);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(truckId).toUri();
-            log.info("Generated URI for new truck id[{}]: {}", truckId, location);
-            return ResponseEntity.created(location).build();
-        } catch (ParseException e) {
-            throw new NotAcceptedException(e.getMessage());
-        }
-    }
+//    @RequestMapping(value = "/", method = RequestMethod.POST)
+//    ResponseEntity addNewTruck(@RequestBody TruckDTO inputTruckDTO) {
+//        Long truckId;
+//        try {
+//            truckId = truckService.saveTruck(inputTruckDTO);
+//            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+//                    .path("/{id}")
+//                    .buildAndExpand(truckId).toUri();
+//            log.info("Generated URI for new truck id[{}]: {}", truckId, location);
+//            return ResponseEntity.created(location).build();
+//        } catch (ParseException e) {
+//            throw new NotAcceptedException(e.getMessage());
+//        }
+//    }
 
     @RequestMapping(value = "/{truckId}", method = RequestMethod.PUT)
     ResponseEntity<Truck> updateTruck(@PathVariable Long truckId, @RequestBody TruckDTO inputTruckDTO) {
         try {
-            Truck truck = truckService.updateTruck(truckId, inputTruckDTO);
+            Truck truck = truckService.(truckId, inputTruckDTO);
             return ResponseEntity.accepted().body(truck);
         } catch (UpdateException e) {
             throw e;
@@ -74,7 +74,7 @@ public class TruckController {
     @RequestMapping(value = "/{truckId}", method = RequestMethod.DELETE)
     ResponseEntity deleteTruck(@PathVariable Long truckId) {
         try {
-            truckService.deleteTruck(truckId);
+            truckService.deleteTruckBySsn(truckId);
         } catch (NotFoundException e) {
             throw e;
         }
@@ -83,7 +83,7 @@ public class TruckController {
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     ResponseEntity<List<Truck>> getTruckByMinCapacity(@RequestParam int minCapacityKg) {
-        List<Truck> foundTrucks = truckService.findTruckByCapacity(minCapacityKg);
+        List<Truck> foundTrucks = truckService.findTrucksByCapacity(minCapacityKg);
         return ResponseEntity.ok().body(foundTrucks);
     }
 }

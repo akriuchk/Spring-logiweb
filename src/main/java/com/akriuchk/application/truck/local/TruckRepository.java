@@ -1,11 +1,12 @@
-package com.akriuchk.application.truck;
+package com.akriuchk.application.truck.local;
 
+import com.akriuchk.application.truck.Truck;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Repository
+@Repository("localRepo")
 public class TruckRepository {
     private static List<Truck> truckRepo = Arrays.asList(
             new Truck(new Random().nextLong(), "7PPDUAVC", 2, 5, "new", "Saint-Petersburg"),

@@ -1,15 +1,36 @@
 package com.akriuchk.application.truck;
 
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
-public class Truck implements Comparable {
+@Entity
+@Table(name = "Trucks", schema = "logiweb")
+public class Truck {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+
+    @Size(min = 6, max = 8)
+    @Column(name = "registerNumber", unique = true)
     private String registerNumber;
-    private final int shiftSize;
-    private final int capacity;
+
+    @Column(name = "shiftSize")
+    private int shiftSize;
+
+    @Column(name = "capacity")
+    private int capacity;
+
+    @Column(name = "condition")
     private String condition;
+
+    @Column(name = "currentCity")
     private String currentCity;
+
+    public Truck() {
+    }
 
     public Truck(Long id, String registerNumber, int shiftSize, int initialCapacity, String initialCondition, String initialCity) {
         this.id = id;
@@ -82,9 +103,15 @@ public class Truck implements Comparable {
         return Objects.hash(id, shiftSize, capacity);
     }
 
-
     @Override
-    public int compareTo(Object o) {
-        return 0;
+    public String toString() {
+        return "Truck{" +
+                "id=" + id +
+                ", registerNumber='" + registerNumber + '\'' +
+                ", shiftSize=" + shiftSize +
+                ", capacity=" + capacity +
+                ", condition='" + condition + '\'' +
+                ", currentCity='" + currentCity + '\'' +
+                '}';
     }
 }
