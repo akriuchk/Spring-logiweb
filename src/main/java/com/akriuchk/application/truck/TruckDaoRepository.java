@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository()
-public class TruckDaoRepository extends AbstractDao implements TruckDao {
+public class TruckDaoRepository extends AbstractDao<Long, Truck> implements TruckDao {
 
 
     @Override

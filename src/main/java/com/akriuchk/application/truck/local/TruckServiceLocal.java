@@ -43,7 +43,7 @@ public class TruckServiceLocal implements ITruckService{
             log.info("[{}] does not matches validation regex {}", truckNumber, validationRegex);
             throw new ParseException("Truck registration number '" + truckNumber + "' is not valid", 0);
         }
-        return TruckRepository.addTruck(truck).getId();
+//        return TruckRepository.addTruck(truck).getId();
     }
 
     /**
@@ -53,7 +53,7 @@ public class TruckServiceLocal implements ITruckService{
      * @return ID of newly added truck
      * @throws ParseException truck number has invalid registration number
      */
-    public Long addTruck(TruckDTO truckDTO) throws ParseException {
+    public long addTruck(TruckDTO truckDTO) throws ParseException {
         log.info("Incoming new truck register number[{}]", truckDTO.getRegisterNumber());
 
         Truck newTruck = new Truck(0L, truckDTO.getRegisterNumber(),
@@ -61,11 +61,13 @@ public class TruckServiceLocal implements ITruckService{
                 truckDTO.getCapacity(),
                 truckDTO.getCondition(),
                 truckDTO.getCurrentCity());
-        long truckID = addTruck(newTruck).getId();
-        if (truckID == 0L) {
-            throw new ParseException("Truck [" + truckDTO.getRegisterNumber() + "] already registered", 0);
-        }
-        return truckID;
+        addTruck(newTruck);
+//        long truckID = addTruck(newTruck).getId();
+//        if (truckID == 0L) {
+//            throw new ParseException("Truck [" + truckDTO.getRegisterNumber() + "] already registered", 0);
+//        }
+//        return truckID;
+        return 0;
     }
 
     /**

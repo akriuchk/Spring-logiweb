@@ -23,13 +23,21 @@ public class Truck {
     @Column(name = "capacity")
     private int capacity;
 
-    @Column(name = "condition")
+    @Column(name = "`condition`")
     private String condition;
 
     @Column(name = "currentCity")
     private String currentCity;
 
     public Truck() {
+    }
+
+    public Truck(String registerNumber, int shiftSize, int capacity, String condition, String currentCity) {
+        this.registerNumber = registerNumber;
+        this.shiftSize = shiftSize;
+        this.capacity = capacity;
+        this.condition = condition;
+        this.currentCity = currentCity;
     }
 
     public Truck(Long id, String registerNumber, int shiftSize, int initialCapacity, String initialCondition, String initialCity) {
@@ -51,6 +59,14 @@ public class Truck {
 
     public int getCapacity() {
         return capacity;
+    }
+
+    public void setShiftSize(int shiftSize) {
+        this.shiftSize = shiftSize;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public String getCondition() {

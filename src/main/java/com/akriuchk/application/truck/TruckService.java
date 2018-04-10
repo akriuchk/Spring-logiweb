@@ -50,6 +50,7 @@ public class TruckService implements ITruckService {
             throw new ParseException("Truck registration number '" + truckNumber + "' is not valid", 0);
         }
         truckRepository.saveTruck(truck);
+        log.info("Save truck", truck);
     }
 
     /**
@@ -63,7 +64,7 @@ public class TruckService implements ITruckService {
     public long addTruck(TruckDTO truckDTO) throws ParseException {
         log.info("Incoming new truck register number[{}]", truckDTO.getRegisterNumber());
 
-        Truck newTruck = new Truck(0L, truckDTO.getRegisterNumber(),
+        Truck newTruck = new Truck(truckDTO.getRegisterNumber(),
                 truckDTO.getShiftSize(),
                 truckDTO.getCapacity(),
                 truckDTO.getCondition(),
