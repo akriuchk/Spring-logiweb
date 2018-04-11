@@ -57,6 +57,10 @@ Reference: https://docs.apigee.com/api-baas/get-started/app-services-data-model-
 
 <server>/api/trucks/search?minCapacityKg=<weight> - get list of Trucks by minimal required capacity. 200:ok/
 
+<server>/api/trucks/search?minCapacityKg=<weight>&resultSize=<size> - search with optional parameter resultSize(default = 1) - specifyed size of collection in callback
+
+
+
 ### POST 
 
 <server>/api/trucks/ - post new truck in format JSON:
