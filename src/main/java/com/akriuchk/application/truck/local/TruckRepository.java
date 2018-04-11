@@ -76,10 +76,10 @@ public class TruckRepository {
         return truckArrayList.remove(truck);
     }
 
-    static List<Truck> getByStateCapacityFree(String condition, double capacity) {
+    static List<Truck> getByStateCapacityFree(String condition, double capacity, int resultSize) {
         return truckArrayList.stream()
                 .filter(truck -> truck.getCondition().equals(condition) && truck.getCapacity() >= capacity)
-                .limit(5)
+                .limit(resultSize)
                 .collect(Collectors.toList());
     }
 
