@@ -98,8 +98,8 @@ public class TruckService implements ITruckService {
      * @return List of 5 trucks, which have at least required capacity
      */
     @Override
-    public List<Truck> findTruckByCapacity(double cargoMaxWeightKg) {
-        int cargoMaxWeightTonnes = (int) cargoMaxWeightKg * 1;
+    public List<Truck> findTruckByCapacity(long cargoMaxWeightKg, int resultSize) {
+        double cargoMaxWeightTonnes = cargoMaxWeightKg * 0.001;
         log.info("Search Truck for required capacity: {} (t)", cargoMaxWeightTonnes);
 
         return truckRepository.findTrucksByCapacity(cargoMaxWeightTonnes);

@@ -91,8 +91,9 @@ public class TruckController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    ResponseEntity<List<TruckDTO>> getTruckByMinCapacity(@RequestParam int minCapacityKg) {
-        List<Truck> foundTrucks = truckService.findTruckByCapacity(minCapacityKg);
+    ResponseEntity<List<TruckDTO>> getTruckByMinCapacity(@RequestParam int minCapacityKg,
+                                                         @RequestParam(defaultValue = "1") int resultSize) {
+        List<Truck> foundTrucks = truckService.findTruckByCapacity(minCapacityKg, resultSize);
         List<TruckDTO> foundTrucksDTO = foundTrucks.stream()
                 .map(truck -> truckConverter.convert(truck, TruckDTO.class))
                 .collect(Collector.of(

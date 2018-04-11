@@ -46,7 +46,9 @@ public class TruckDaoRepository extends AbstractDao<Long, Truck> implements Truc
 
     @Override
     public List<Truck> findTrucksByCapacity(double requiredCapacityTonnes) {
+
+
         Criteria criteria = createEntityCriteria();
-        return criteria.add(Restrictions.ge("capacity", (int)requiredCapacityTonnes)).list();
+        return criteria.add(Restrictions.ge("capacity", Math.ceil(requiredCapacityTonnes))).list();
     }
 }

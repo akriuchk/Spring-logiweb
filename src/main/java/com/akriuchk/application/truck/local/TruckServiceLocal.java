@@ -103,11 +103,11 @@ public class TruckServiceLocal implements ITruckService{
      * @param cargoMaxWeightKg weigth of cargo, which must be transfered
      * @return List of 5 trucks, which have at least required capacity
      */
-    public List<Truck> findTruckByCapacity(double cargoMaxWeightKg) {
+    public List<Truck> findTruckByCapacity(long cargoMaxWeightKg, int resultSize) {
         double cargoMaxWeightTonnes = cargoMaxWeightKg * 0.001;
         log.info("Search Truck for required capacity: {} (t)", cargoMaxWeightTonnes);
         String condition = "new";
-        List<Truck> foundTrucks = TruckRepository.getByStateCapacityFree(condition, cargoMaxWeightTonnes);
+        List<Truck> foundTrucks = TruckRepository.getByStateCapacityFree(condition, cargoMaxWeightTonnes, resultSize);
         log.info("Found {} Trucks with capacity for order weight {} (t)", foundTrucks.size(), cargoMaxWeightTonnes);
 
         if (foundTrucks.size() != 0) {

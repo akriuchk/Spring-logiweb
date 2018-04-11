@@ -13,5 +13,5 @@ public interface TruckDao {
 
     Truck findTruckByNumber(String number);
 
-    List<Truck> findTrucksByCapacity(double requiredCapacity);
+    List findTrucksByCapacity(double requiredCapacityKg);
 }

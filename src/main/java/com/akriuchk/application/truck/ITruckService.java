@@ -17,5 +17,5 @@ public interface ITruckService {
 
     boolean deleteTruck(Long id) throws NotFoundException;
 
-    List<Truck> findTruckByCapacity(double cargoMaxWeightKg);
+    List<Truck> findTruckByCapacity(long cargoMaxWeightKg, int resultSize);
 }
