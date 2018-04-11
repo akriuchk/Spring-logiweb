@@ -7,7 +7,7 @@ public interface TruckDao {
 
     void saveTruck(Truck truck);
 
-    void deleteTruckBySsn(long id);
+    void deleteTruckById(long id);
 
     List<Truck> findAllTrucks();
 

@@ -37,59 +37,35 @@ public class TruckServiceLocal implements ITruckService{
      * @return "true" - successfully, "false" - failed, already registered
      * @throws ParseException truck number has invalid registration number
      */
-    public void addTruck(Truck truck) throws ParseException {
+    public long addTruck(Truck truck) throws ParseException {
         String truckNumber = truck.getRegisterNumber();
         if (!truckNumber.matches(validationRegex)) {
             log.info("[{}] does not matches validation regex {}", truckNumber, validationRegex);
             throw new ParseException("Truck registration number '" + truckNumber + "' is not valid", 0);
         }
-//        return TruckRepository.addTruck(truck).getId();
-    }
-
-    /**
-     * Convert TruckDTO to Truck domain and add it to repo
-     *
-     * @param truckDTO incoming truck domain
-     * @return ID of newly added truck
-     * @throws ParseException truck number has invalid registration number
-     */
-    public long addTruck(TruckDTO truckDTO) throws ParseException {
-        log.info("Incoming new truck register number[{}]", truckDTO.getRegisterNumber());
-
-        Truck newTruck = new Truck(0L, truckDTO.getRegisterNumber(),
-                truckDTO.getShiftSize(),
-                truckDTO.getCapacity(),
-                truckDTO.getCondition(),
-                truckDTO.getCurrentCity());
-        addTruck(newTruck);
-//        long truckID = addTruck(newTruck).getId();
-//        if (truckID == 0L) {
-//            throw new ParseException("Truck [" + truckDTO.getRegisterNumber() + "] already registered", 0);
-//        }
-//        return truckID;
-        return 0;
+        return TruckRepository.addTruck(truck).getId();
     }
 
     /**
      * Update track parameters by it's id and passed truckDTO
      *
      * @param id       key to find truck
-     * @param truckDTO incoming DTO with updated parameters
+     * @param incomingTruck incoming DTO with updated parameters
      * @return updated Truck object
      * @throws UpdateException if no changes were made, throw and this exception
      */
-    public Truck updateTruck(Long id, TruckDTO truckDTO) throws UpdateException {
+    public Truck updateTruck(Long id, Truck incomingTruck) throws UpdateException {
         log.info("Processing truck id[{}] update request", id);
         //todo validate incoming request with parameters types
         Truck truck = TruckRepository.getById(id);
         if (null == truck) {
             throw new UpdateException("Truck id[" + id + "] not found.");
         }
-        Truck newTruck = new Truck(id, truckDTO.getRegisterNumber(),
-                truckDTO.getShiftSize(),
-                truckDTO.getCapacity(),
-                truckDTO.getCondition(),
-                truckDTO.getCurrentCity());
+        Truck newTruck = new Truck(id, incomingTruck.getRegisterNumber(),
+                incomingTruck.getShiftSize(),
+                incomingTruck.getCapacity(),
+                incomingTruck.getCondition(),
+                incomingTruck.getCurrentCity());
         truck = TruckRepository.replaceByID(id, newTruck);
 
         if (truck.equals(newTruck)) {

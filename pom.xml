@@ -4,7 +4,7 @@
     <groupId>com.akriuchk.tsystems</groupId>
     <artifactId>logisticweb</artifactId>
     <packaging>war</packaging>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
     <name>logisticweb Webapp</name>
 
 
@@ -21,6 +21,11 @@
         <!--URLs-->
         <tomcat.host.url>http://localhost:8080/manager/text</tomcat.host.url>
         <sonar.host.url>http://192.168.1.100:9000</sonar.host.url>
+
+        <!-- plugin versions -->
+        <maven.compiler.plugin>3.7.0</maven.compiler.plugin>
+        <tomcat7.maven.plugin.version>2.2</tomcat7.maven.plugin.version>
+        <sonar.maven.plugin.version>3.4.0.905</sonar.maven.plugin.version>
     </properties>
 
     <dependencies>
@@ -146,7 +151,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>${maven.compiler.plugin}</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -157,7 +162,7 @@
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
+                <version>${tomcat7.maven.plugin.version}</version>
                 <configuration>
                     <url>${tomcat.host.url}</url>
                     <server>tomcatServer9_0</server>
@@ -176,7 +181,7 @@
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.4.0.905</version>
+                <version>${sonar.maven.plugin.version}</version>
             </plugin>
         </plugins>
     </build>

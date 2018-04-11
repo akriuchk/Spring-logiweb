@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class TruckDTO {
 
+    private long id;
     private String registerNumber;
     private int shiftSize;
     private int capacity;
@@ -19,6 +20,23 @@ public class TruckDTO {
         this.capacity = initialCapacity;
         this.condition = initialCondition;
         this.currentCity = initialCity;
+    }
+
+    public TruckDTO(long id, String registerNumber, int shiftSize, int capacity, String condition, String currentCity) {
+        this.id = id;
+        this.registerNumber = registerNumber;
+        this.shiftSize = shiftSize;
+        this.capacity = capacity;
+        this.condition = condition;
+        this.currentCity = currentCity;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void setRegisterNumber(String registerNumber) {
@@ -68,7 +86,8 @@ public class TruckDTO {
         if (o == null || getClass() != o.getClass()) return false;
         TruckDTO truck = (TruckDTO) o;
         return (shiftSize == truck.shiftSize &&
-                capacity == truck.capacity);
+                capacity == truck.capacity &&
+                registerNumber.equals(truck.registerNumber));
     }
 
     @Override

@@ -15,7 +15,6 @@ import java.util.List;
 @Transactional
 public class TruckService implements ITruckService {
     private final Logger log = LoggerFactory.getLogger(TruckService.class);
-    private static String validationRegex = "[A-Z0-9]{8}";
 
     private TruckDao truckRepository;
 
@@ -43,46 +42,28 @@ public class TruckService implements ITruckService {
      * @throws ParseException truck number has invalid registration number
      */
     @Override
-    public void addTruck(Truck truck) throws ParseException {
+    public long addTruck(Truck truck) throws ParseException {
         String truckNumber = truck.getRegisterNumber();
+        String validationRegex = "[A-Z0-9]{8}";
         if (!truckNumber.matches(validationRegex)) {
             log.info("[{}] does not matches validation regex {}", truckNumber, validationRegex);
             throw new ParseException("Truck registration number '" + truckNumber + "' is not valid", 0);
         }
         truckRepository.saveTruck(truck);
-        log.info("Save truck", truck);
+        log.info("Saved truck", truck);
+        return truck.getId();
     }
 
     /**
-     * Convert TruckDTO to Truck domain and add it to repo
-     *
-     * @param truckDTO incoming truck domain
-     * @return ID of newly added truck
-     * @throws ParseException truck number has invalid registration number
-     */
-    @Override
-    public long addTruck(TruckDTO truckDTO) throws ParseException {
-        log.info("Incoming new truck register number[{}]", truckDTO.getRegisterNumber());
-
-        Truck newTruck = new Truck(truckDTO.getRegisterNumber(),
-                truckDTO.getShiftSize(),
-                truckDTO.getCapacity(),
-                truckDTO.getCondition(),
-                truckDTO.getCurrentCity());
-        addTruck(newTruck);
-        return newTruck.getId();
-    }
-
-    /**
-     * Update track parameters by it's id and passed truckDTO
+     * Update track parameters by it's id and passed truck
      *
      * @param id       key to find truck
-     * @param truckDTO incoming DTO with updated parameters
+     * @param updatedTruck incoming truck with updated parameters
      * @return updated Truck object
      * @throws UpdateException if no changes were made, throw and this exception
      */
     @Override
-    public Truck updateTruck(Long id, TruckDTO truckDTO) throws UpdateException {
+    public Truck updateTruck(Long id, Truck updatedTruck) throws UpdateException {
         log.info("Processing truck id[{}] update request", id);
         //todo validate incoming request with parameters types
         Truck truck = truckRepository.getById(id);
@@ -90,10 +71,9 @@ public class TruckService implements ITruckService {
             throw new UpdateException("Truck id[" + id + "] not found.");
         }
 
-        truck.setCondition(truckDTO.getCondition());
-        truck.setCurrentCity(truckDTO.getCurrentCity());
-        truck.setRegisterNumber(truckDTO.getRegisterNumber());
-
+        truck.setCondition(updatedTruck.getCondition());
+        truck.setCurrentCity(updatedTruck.getCurrentCity());
+        truck.setRegisterNumber(updatedTruck.getRegisterNumber());
         return truck;
     }
 
@@ -107,7 +87,7 @@ public class TruckService implements ITruckService {
     @Override
     public boolean deleteTruck(Long id) throws NotFoundException {
         log.info("Processing deletion request of Truck id[{}]", id);
-        truckRepository.deleteTruckBySsn(id);
+        truckRepository.deleteTruckById(id);
         return true;
     }
 
@@ -119,7 +99,7 @@ public class TruckService implements ITruckService {
      */
     @Override
     public List<Truck> findTruckByCapacity(double cargoMaxWeightKg) {
-        double cargoMaxWeightTonnes = cargoMaxWeightKg * 0.001;
+        int cargoMaxWeightTonnes = (int) cargoMaxWeightKg * 1;
         log.info("Search Truck for required capacity: {} (t)", cargoMaxWeightTonnes);
 
         return truckRepository.findTrucksByCapacity(cargoMaxWeightTonnes);

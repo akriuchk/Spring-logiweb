@@ -14,7 +14,7 @@ public class TruckDaoRepository extends AbstractDao<Long, Truck> implements Truc
 
     @Override
     public Truck getById(long id) {
-        return getById(id);
+        return getByKey(id);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class TruckDaoRepository extends AbstractDao<Long, Truck> implements Truc
     }
 
     @Override
-    public void deleteTruckBySsn(long id) {
+    public void deleteTruckById(long id) {
         Query query = getSession().createQuery("delete from Truck where id = :truckid");
         query.setParameter("truckid", id);
         query.executeUpdate();
@@ -47,6 +47,6 @@ public class TruckDaoRepository extends AbstractDao<Long, Truck> implements Truc
     @Override
     public List<Truck> findTrucksByCapacity(double requiredCapacityTonnes) {
         Criteria criteria = createEntityCriteria();
-        return criteria.add(Restrictions.ge("capacity", requiredCapacityTonnes)).list();
+        return criteria.add(Restrictions.ge("capacity", (int)requiredCapacityTonnes)).list();
     }
 }

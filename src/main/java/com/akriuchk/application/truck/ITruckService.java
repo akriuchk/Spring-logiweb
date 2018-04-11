@@ -11,11 +11,9 @@ public interface ITruckService {
 
     Truck getTruckByID(Long id);
 
-    void addTruck(Truck truck) throws ParseException;
+    long addTruck(Truck truck) throws ParseException;
 
-    long addTruck(TruckDTO truckDTO) throws ParseException;
-
-    Truck updateTruck(Long id, TruckDTO truckDTO) throws UpdateException;
+    Truck updateTruck(Long id, Truck truck) throws UpdateException;
 
     boolean deleteTruck(Long id) throws NotFoundException;
 

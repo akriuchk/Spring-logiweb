@@ -12,7 +12,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/trucks")
@@ -20,10 +23,12 @@ public class TruckController {
     private static final Logger log = LoggerFactory.getLogger(TruckController.class);
 
     private ITruckService truckService;
+    private TruckConverter truckConverter;
 
     @Autowired
-    TruckController(ITruckService truckService) {
+    TruckController(ITruckService truckService, TruckConverter truckConverter) {
         this.truckService = truckService;
+        this.truckConverter = truckConverter;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -37,10 +42,11 @@ public class TruckController {
     }
 
     @RequestMapping(value = "/{truckId}", method = RequestMethod.GET)
-    ResponseEntity<Truck> getTruckById(@PathVariable Long truckId) {
+    ResponseEntity<TruckDTO> getTruckById(@PathVariable Long truckId) {
         Truck truck = truckService.getTruckByID(truckId);
         if (null != truck) {
-            return ResponseEntity.ok(truck);
+            TruckDTO newTruckDto = (TruckDTO) truckConverter.convert(truck, TruckDTO.class);
+            return ResponseEntity.ok(newTruckDto);
         } else {
             throw new NotFoundException("Truck id[" + truckId + "] not found");
         }
@@ -51,7 +57,8 @@ public class TruckController {
         Long truckId;
 
         try {
-            truckId = truckService.addTruck(inputTruckDTO);
+            Truck newTruck = (Truck) truckConverter.convert(inputTruckDTO, Truck.class);
+            truckId = truckService.addTruck(newTruck);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
                     .buildAndExpand(truckId).toUri();
@@ -65,7 +72,8 @@ public class TruckController {
     @RequestMapping(value = "/{truckId}", method = RequestMethod.PUT)
     ResponseEntity<Truck> updateTruck(@PathVariable Long truckId, @RequestBody TruckDTO inputTruckDTO) {
         try {
-            Truck truck = truckService.updateTruck(truckId, inputTruckDTO);
+            Truck newTruck = (Truck) truckConverter.convert(inputTruckDTO, Truck.class);
+            Truck truck = truckService.updateTruck(truckId, newTruck);
             return ResponseEntity.accepted().body(truck);
         } catch (UpdateException e) {
             throw e;
@@ -83,8 +91,18 @@ public class TruckController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    ResponseEntity<List<Truck>> getTruckByMinCapacity(@RequestParam int minCapacityKg) {
+    ResponseEntity<List<TruckDTO>> getTruckByMinCapacity(@RequestParam int minCapacityKg) {
         List<Truck> foundTrucks = truckService.findTruckByCapacity(minCapacityKg);
-        return ResponseEntity.ok().body(foundTrucks);
+        List<TruckDTO> foundTrucksDTO = foundTrucks.stream()
+                .map(truck -> truckConverter.convert(truck, TruckDTO.class))
+                .collect(Collector.of(
+                        () -> new ArrayList<TruckDTO>(),
+                        (list, truck) -> list.add((TruckDTO) truck),
+                        (list1, list2) -> {
+                            list1.addAll(list2);
+                            return list1;
+                        })
+                );
+        return ResponseEntity.ok().body(foundTrucksDTO);
     }
 }
