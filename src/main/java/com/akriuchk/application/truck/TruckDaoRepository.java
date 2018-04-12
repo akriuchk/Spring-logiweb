@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository()
-public class TruckDaoRepository extends AbstractDao<Long, Truck> implements TruckDao {
+public class TruckDaoRepository extends AbstractDao<Long, Truck> implements ITruckDao {
 
 
     @Override
-    public Truck getById(long id) {
-        return getByKey(id);
+    public Truck getByKey(long id) {
+        return super.getByKey(id);
     }
 
     @Override
@@ -39,16 +39,16 @@ public class TruckDaoRepository extends AbstractDao<Long, Truck> implements Truc
     @Override
     public Truck findTruckByNumber(String number) {
         Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("registerNumber", number));
+        criteria.add(Restrictions.eq("register_number", number));
         return (Truck) criteria.uniqueResult();
     }
 
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Truck> findTrucksByCapacity(double requiredCapacityTonnes) {
-
-
+        Integer tonnes =  (int)Math.ceil(requiredCapacityTonnes);
         Criteria criteria = createEntityCriteria();
-        return criteria.add(Restrictions.ge("capacity", Math.ceil(requiredCapacityTonnes))).list();
+        return criteria.add(Restrictions.ge("capacity", tonnes)).list();
     }
 }

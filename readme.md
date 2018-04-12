@@ -108,3 +108,31 @@ Failure: 404 – Not Found
 
 
 
+```
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+@Column(name = "id")
+private long id;
+
+@Column(name = "firstName")
+private String firstName;
+
+@Column(name = "surname")
+private String surname;
+
+@Column(name = "registrationNumber", unique = true)
+private int registrationNumber;
+
+@Column(name = "hoursInCurrentMonthWorks")
+private int hoursInCurrentMonthWorks;
+
+@Column(name = "status")
+private String status;
+
+@Column(name = "currentCity")
+private String currentCity;
+
+@Column(name = "currentTruck")
+private String currentTruck;
+```
+

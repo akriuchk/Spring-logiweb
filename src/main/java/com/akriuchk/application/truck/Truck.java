@@ -1,7 +1,11 @@
 package com.akriuchk.application.truck;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -14,10 +18,10 @@ public class Truck {
     private Long id;
 
     @Size(min = 6, max = 8)
-    @Column(name = "registerNumber", unique = true)
+    @Column(name = "register_number", unique = true)
     private String registerNumber;
 
-    @Column(name = "shiftSize")
+    @Column(name = "shift_size")
     private int shiftSize;
 
     @Column(name = "capacity")
@@ -26,8 +30,17 @@ public class Truck {
     @Column(name = "`condition`")
     private String condition;
 
-    @Column(name = "currentCity")
+    @Column(name = "current_city")
     private String currentCity;
+
+    @CreationTimestamp
+    @Column(name = "created")
+    private Date created;
+
+    @UpdateTimestamp
+    @Column(name = "updated")
+    private Date updated;
+
 
     public Truck() {
     }

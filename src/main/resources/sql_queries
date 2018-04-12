@@ -8,3 +8,17 @@ CREATE TABLE `logiweb`.`Trucks` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC));
 
+CREATE TABLE `logiweb`.`drivers` (
+  `id` BIGINT NOT NULL,
+  `firstname` VARCHAR(45) NOT NULL,
+  `surname` VARCHAR(45) NOT NULL,
+  `registration_number` BIGINT(12) NOT NULL,
+  `hours_in_current_month_works` INT(3) ZEROFILL NOT NULL,
+  `status` VARCHAR(45) NOT NULL,
+  `current_city` VARCHAR(45) NOT NULL,
+  `current_truck` VARCHAR(45) NOT NULL,
+  `created` DATETIME NOT NULL,
+  `updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  UNIQUE INDEX `registrationNumber_UNIQUE` (`registration_number` ASC));

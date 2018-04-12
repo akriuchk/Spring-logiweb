@@ -17,6 +17,7 @@ public class TruckConverter {
      * @return new object of targetType clazz
      */
     Object convert(Object source, Class<?> targetType) {
+        //todo implement convert() method in DTO class to avoid many if's here
         Objects.equals(source.getClass(), targetType);
         if (source.getClass() == targetType) {
             return source;

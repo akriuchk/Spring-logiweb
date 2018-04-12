@@ -1,15 +1,28 @@
-package com.akriuchk.application.domain;
+package com.akriuchk.application.driver;
 
-public class Driver {
+public class DriverDto {
+
+    private long id;
+
     private String firstName;
+
     private String surname;
+
     private int registrationNumber;
+
     private int hoursInCurrentMonthWorks;
+
     private String status;
+
     private String currentCity;
+
     private String currentTruck;
 
-    public Driver(String firstName, String surname, int registrationNumber, int hoursInCurrentMonthWorks, String status, String currentCity, String currentTruck) {
+    public DriverDto() {
+    }
+
+    public DriverDto(long id, String firstName, String surname, int registrationNumber, int hoursInCurrentMonthWorks, String status, String currentCity, String currentTruck) {
+        this.id = id;
         this.firstName = firstName;
         this.surname = surname;
         this.registrationNumber = registrationNumber;
@@ -17,6 +30,26 @@ public class Driver {
         this.status = status;
         this.currentCity = currentCity;
         this.currentTruck = currentTruck;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setRegistrationNumber(int registrationNumber) {
+        this.registrationNumber = registrationNumber;
     }
 
     public String getFirstName() {
@@ -62,4 +95,5 @@ public class Driver {
     public void setCurrentTruck(String currentTruck) {
         this.currentTruck = currentTruck;
     }
+
 }

@@ -16,10 +16,10 @@ import java.util.List;
 public class TruckService implements ITruckService {
     private final Logger log = LoggerFactory.getLogger(TruckService.class);
 
-    private TruckDao truckRepository;
+    private ITruckDao truckRepository;
 
     @Autowired
-    public TruckService(TruckDao truckRepository) {
+    public TruckService(ITruckDao truckRepository) {
         this.truckRepository = truckRepository;
     }
 
@@ -31,7 +31,7 @@ public class TruckService implements ITruckService {
 
     @Override
     public Truck getTruckByID(Long id) {
-        return truckRepository.getById(id);
+        return truckRepository.getByKey(id);
     }
 
     /**
@@ -66,7 +66,7 @@ public class TruckService implements ITruckService {
     public Truck updateTruck(Long id, Truck updatedTruck) throws UpdateException {
         log.info("Processing truck id[{}] update request", id);
         //todo validate incoming request with parameters types
-        Truck truck = truckRepository.getById(id);
+        Truck truck = truckRepository.getByKey(id);
         if (null == truck) {
             throw new UpdateException("Truck id[" + id + "] not found.");
         }
