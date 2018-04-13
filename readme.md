@@ -37,9 +37,9 @@ sonar url: http://192.168.1.100:9000
 
 `<server>`/api - root
 
-`<server>`/api/trucks - [trucks api](#-apitrucks)
+`<server>`/api/trucks - [trucks api](#apitrucks)
 
-`<server>`/api/drivers - [drivers api](#-apidrivers)
+`<server>`/api/drivers - [drivers api](#apidrivers)
 
 Tbd: authentification, pagination, better error handling
 
@@ -47,7 +47,7 @@ Reference: https://docs.apigee.com/api-baas/get-started/app-services-data-model-
 
 
 
-## <a id="htrucks"></a> /api/trucks
+##/api/trucks
 
 `<server>`/api/trucks/ - hello there
 
@@ -110,7 +110,7 @@ Failure: 404 – Not Found
 
 
 
-## <a id="hdrivers"></a>/api/drivers
+##/api/drivers
 
 `<server>`/api/drivers/ - hello there
 
