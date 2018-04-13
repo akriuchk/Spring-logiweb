@@ -47,7 +47,7 @@ Reference: https://docs.apigee.com/api-baas/get-started/app-services-data-model-
 
 
 
-##/api/trucks
+## /api/trucks
 
 `<server>`/api/trucks/ - hello there
 
@@ -110,7 +110,7 @@ Failure: 404 – Not Found
 
 
 
-##/api/drivers
+## /api/drivers
 
 `<server>`/api/drivers/ - hello there
 
