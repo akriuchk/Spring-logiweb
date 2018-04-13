@@ -23,9 +23,9 @@ sonar url: http://192.168.1.100:9000
 
 ## 2 kinds of API:
 
-<server>/ - html view
+`<server>`/ - html view
 
-<server>/api - rest view
+`<server>`/api - rest view
 
 
 
@@ -35,11 +35,11 @@ sonar url: http://192.168.1.100:9000
 
 ## Rest api
 
-<server>/api - root
+`<server>`/api - root
 
-<server>/api/trucks - trucks api
+`<server>`/api/trucks - [trucks api](#htrucks)
 
-<server>/api/drivers - drivers api
+`<server>`/api/drivers - [drivers api](#hdrivers)
 
 Tbd: authentification, pagination, better error handling
 
@@ -47,25 +47,25 @@ Reference: https://docs.apigee.com/api-baas/get-started/app-services-data-model-
 
 
 
-## /api/trucks
+## <a name="htrucks"></a> /api/trucks
 
-<server>/api/trucks/ - hello there
+`<server>`/api/trucks/ - hello there
 
 ### GET
 
-<server>/api/trucks - list of all trucks
+`<server>`/api/trucks - list of all trucks
 
-<server>/api/trucks/{id} - get truck by its id 200:ok/404:not found
+`<server>`/api/trucks/{id} - get truck by its id 200:ok/404:not found
 
-<server>/api/trucks/search?minCapacityKg=<weight> - get list of Trucks by minimal required capacity. 200:ok/
+`<server>`/api/trucks/search?minCapacityKg=`<weight> `- get list of Trucks by minimal required capacity. 200:ok/
 
-<server>/api/trucks/search?minCapacityKg=<weight>&resultSize=<size> - search with optional parameter resultSize(default = 1) - specifyed size of collection in callback
+`<server>`/api/trucks/search?minCapacityKg=`<weight>`&resultSize=`<size>` - search with optional parameter resultSize(default = 1) - specifyed size of collection in callback
 
 
 
 ### POST 
 
-<server>/api/trucks/ - post new truck in format JSON:
+`<server>`/api/trucks/ - post new truck in format JSON:
 
 ```json
 {
@@ -85,7 +85,7 @@ Failed: 406 - not acceptable
 
 ### PUT
 
-<server>/api/trucks/{id} - put here updated truck info in json - format see POST
+`<server>`/api/trucks/{id} - put here updated truck info in json - format see POST
 
 Success: 202 - accepted
 
@@ -102,7 +102,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"registrationNumber": "7PP
 
 ### DELETE
 
-<server>/api/trucks/{id} - delete truck by requested id
+`<server>`/api/trucks/{id} - delete truck by requested id
 
 Success: 200 - OK
 
@@ -110,25 +110,25 @@ Failure: 404 – Not Found
 
 
 
-## /api/drivers
+## <a name="hdrivers"></a>/api/drivers
 
-<server>/api/drivers/ - hello there
+`<server>`/api/drivers/ - hello there
 
 ### GET
 
-<server>/api/drivers - list of all drivers
+`<server>`/api/drivers - list of all drivers
 
-<server>/api/drivers/{id} - get driver by its id 200:ok/404:not found
+`<server>`/api/drivers/{id} - get driver by its id 200:ok/404:not found
 
-<server>/api/drivers/search?workhours=<weight> - get list of Drivers by required rwork hours. 200:ok/
+`<server>`/api/drivers/search?workhours=<weight> - get list of Drivers by required rwork hours. 200:ok/
 
-<server>/api/drivers/search?minCapacityKg=<weight>&resultSize=<size> - search with optional parameter resultSize(default = 1) - specifyed size of collection in callback
+`<server>`/api/drivers/search?minCapacityKg=<weight>&resultSize=<size> - search with optional parameter resultSize(default = 1) - specifyed size of collection in callback
 
 
 
 ### POST
 
-<server>/api/drivers/ - post new truck in format JSON:
+`<server>`/api/drivers/ - post new truck in format JSON:
 
 ```json
 {
@@ -150,7 +150,7 @@ Failed: 406 - not acceptable
 
 ### PUT
 
-<server>/api/drivers/{id} - put here updated truck info in json - format see POST
+`<server>`/api/drivers/{id} - put here updated truck info in json - format see POST
 
 Success: 202 - accepted
 
@@ -160,7 +160,7 @@ Failure: truck by id not found: 400 – Bad Request
 
 ### DELETE
 
-<server>/api/drivers/{id} - delete driver by requested id
+`<server>`/api/drivers/{id} - delete driver by requested id
 
 Success: 200 - OK
 
