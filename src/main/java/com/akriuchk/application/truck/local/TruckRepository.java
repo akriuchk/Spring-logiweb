@@ -3,7 +3,10 @@ package com.akriuchk.application.truck.local;
 import com.akriuchk.application.truck.Truck;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Repository("localRepo")
@@ -22,9 +25,11 @@ public class TruckRepository {
         return truckArrayList;
     }
 
+    private TruckRepository() {    }
+
     /**
      * Method adds new truck to repo,
-     * new truck checked by registerNumber
+     * new truck checked by registrationNumber
      *
      * @param truck new truck to be added
      * @return code about result of addition

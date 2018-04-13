@@ -1,7 +1,7 @@
 package com.akriuchk.application.truck;
 
-import com.akriuchk.application.controller.exception.UpdateException;
 import com.akriuchk.application.controller.exception.NotFoundException;
+import com.akriuchk.application.controller.exception.UpdateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,14 +43,14 @@ public class TruckService implements ITruckService {
      */
     @Override
     public long addTruck(Truck truck) throws ParseException {
-        String truckNumber = truck.getRegisterNumber();
+        String truckNumber = truck.getRegistrationNumber();
         String validationRegex = "[A-Z0-9]{8}";
         if (!truckNumber.matches(validationRegex)) {
             log.info("[{}] does not matches validation regex {}", truckNumber, validationRegex);
             throw new ParseException("Truck registration number '" + truckNumber + "' is not valid", 0);
         }
         truckRepository.saveTruck(truck);
-        log.info("Saved truck", truck);
+        log.info("Saved truck {}", truck);
         return truck.getId();
     }
 
@@ -73,7 +73,7 @@ public class TruckService implements ITruckService {
 
         truck.setCondition(updatedTruck.getCondition());
         truck.setCurrentCity(updatedTruck.getCurrentCity());
-        truck.setRegisterNumber(updatedTruck.getRegisterNumber());
+        truck.setRegistrationNumber(updatedTruck.getRegistrationNumber());
         return truck;
     }
 

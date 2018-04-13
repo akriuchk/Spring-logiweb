@@ -8,11 +8,13 @@ import java.util.Objects;
 public class TruckConverter {
 
     public TruckConverter() {
+        //empty constructor
     }
 
     /**
      * Convert source object to new object of targetType clazz
-     * @param source source object for converting
+     *
+     * @param source     source object for converting
      * @param targetType target class of converted object
      * @return new object of targetType clazz
      */
@@ -24,7 +26,7 @@ public class TruckConverter {
         } else if (targetType == TruckDTO.class) {
             Truck sourceTruck = (Truck) source;
             return new TruckDTO(sourceTruck.getId(),
-                    sourceTruck.getRegisterNumber(),
+                    sourceTruck.getRegistrationNumber(),
                     sourceTruck.getShiftSize(),
                     sourceTruck.getCapacity(),
                     sourceTruck.getCondition(),
@@ -33,7 +35,7 @@ public class TruckConverter {
             TruckDTO truckDTO = (TruckDTO) source;
             return new Truck(
 //                    truckDTO.getId(),
-                    truckDTO.getRegisterNumber(),
+                    truckDTO.getRegistrationNumber(),
                     truckDTO.getShiftSize(),
                     truckDTO.getCapacity(),
                     truckDTO.getCondition(),

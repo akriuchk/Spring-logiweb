@@ -19,7 +19,7 @@ public class Truck {
 
     @Size(min = 6, max = 8)
     @Column(name = "register_number", unique = true)
-    private String registerNumber;
+    private String registrationNumber;
 
     @Column(name = "shift_size")
     private int shiftSize;
@@ -45,21 +45,21 @@ public class Truck {
     public Truck() {
     }
 
-    public Truck(String registerNumber, int shiftSize, int capacity, String condition, String currentCity) {
-        this.registerNumber = registerNumber;
+    public Truck(String registrationNumber, int shiftSize, int capacity, String condition, String currentCity) {
+        this.registrationNumber = registrationNumber;
         this.shiftSize = shiftSize;
         this.capacity = capacity;
         this.condition = condition;
         this.currentCity = currentCity;
     }
 
-    public Truck(Long id, String registerNumber, int shiftSize, int initialCapacity, String initialCondition, String initialCity) {
-        this(registerNumber, shiftSize, initialCapacity, initialCondition, initialCity);
+    public Truck(Long id, String registrationNumber, int shiftSize, int initialCapacity, String initialCondition, String initialCity) {
+        this(registrationNumber, shiftSize, initialCapacity, initialCondition, initialCity);
         this.id = id;
     }
 
-    public String getRegisterNumber() {
-        return registerNumber;
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 
     public int getShiftSize() {
@@ -102,8 +102,8 @@ public class Truck {
         this.id = id;
     }
 
-    public void setRegisterNumber(String registerNumber) {
-        this.registerNumber = registerNumber;
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
     }
 
     public void setCondition(String condition) {
@@ -140,7 +140,7 @@ public class Truck {
     public String toString() {
         return "Truck{" +
                 "id=" + id +
-                ", registerNumber='" + registerNumber + '\'' +
+                ", registrationNumber='" + registrationNumber + '\'' +
                 ", shiftSize=" + shiftSize +
                 ", capacity=" + capacity +
                 ", condition='" + condition + '\'' +

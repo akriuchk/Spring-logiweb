@@ -1,11 +1,10 @@
 package com.akriuchk.application.truck;
 
-import com.akriuchk.configuration.*;
-
+import com.akriuchk.configuration.SpringConfiguration;
+import com.akriuchk.configuration.SpringInit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -14,19 +13,17 @@ import org.springframework.test.context.testng.AbstractTransactionalTestNGSpring
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import static org.hamcrest.Matchers.*;
-
 import org.springframework.util.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.testng.Assert.*;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Test
 @ContextHierarchy({
@@ -70,7 +67,7 @@ public class TruckServiceTest extends AbstractTransactionalTestNGSpringContextTe
 //                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.registerNumber", is("7PPDUBAF")));
+                .andExpect(jsonPath("$.registrationNumber", is("7PPDUBAF")));
     }
 
     @Test
@@ -84,9 +81,9 @@ public class TruckServiceTest extends AbstractTransactionalTestNGSpringContextTe
         Assert.notNull(redirectedUrl, "check redirectUrl for null");
 
         mockMvc.perform(get(redirectedUrl).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.currentCity", is("in MVC")))
-                .andExpect(jsonPath("$.registerNumber", is("AB12CD34")));
+                .andExpect(jsonPath("$.registrationNumber", is("AB12CD34")));
     }
 
     @Test
@@ -105,7 +102,7 @@ public class TruckServiceTest extends AbstractTransactionalTestNGSpringContextTe
         mockMvc.perform(get(redirectedUrl).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.currentCity", is("Updated")))
-                .andExpect(jsonPath("$.registerNumber", is("AB12CD34")));
+                .andExpect(jsonPath("$.registrationNumber", is("AB12CD34")));
 
     }
 

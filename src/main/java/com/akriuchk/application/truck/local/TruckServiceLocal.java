@@ -4,7 +4,6 @@ import com.akriuchk.application.controller.exception.NotFoundException;
 import com.akriuchk.application.controller.exception.UpdateException;
 import com.akriuchk.application.truck.ITruckService;
 import com.akriuchk.application.truck.Truck;
-import com.akriuchk.application.truck.TruckDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,7 @@ public class TruckServiceLocal implements ITruckService{
      * @throws ParseException truck number has invalid registration number
      */
     public long addTruck(Truck truck) throws ParseException {
-        String truckNumber = truck.getRegisterNumber();
+        String truckNumber = truck.getRegistrationNumber();
         if (!truckNumber.matches(validationRegex)) {
             log.info("[{}] does not matches validation regex {}", truckNumber, validationRegex);
             throw new ParseException("Truck registration number '" + truckNumber + "' is not valid", 0);
@@ -61,7 +60,7 @@ public class TruckServiceLocal implements ITruckService{
         if (null == truck) {
             throw new UpdateException("Truck id[" + id + "] not found.");
         }
-        Truck newTruck = new Truck(id, incomingTruck.getRegisterNumber(),
+        Truck newTruck = new Truck(id, incomingTruck.getRegistrationNumber(),
                 incomingTruck.getShiftSize(),
                 incomingTruck.getCapacity(),
                 incomingTruck.getCondition(),
@@ -69,10 +68,10 @@ public class TruckServiceLocal implements ITruckService{
         truck = TruckRepository.replaceByID(id, newTruck);
 
         if (truck.equals(newTruck)) {
-            log.info("Truck id[{}] update success{}");
+            log.info("Truck id[{}] update success", id);
             return truck;
         } else {
-            log.info("Truck id[{}] update failed{}");
+            log.info("Truck id[{}] update failed", id);
             throw new UpdateException("Update failed");
         }
     }
@@ -89,7 +88,7 @@ public class TruckServiceLocal implements ITruckService{
         Truck truck = TruckRepository.getById(id);
         if (truck != null) {
             boolean isDeleted = TruckRepository.deleteTruck(truck);
-            log.info("Truck id[{}] deleted: {}", isDeleted);
+            log.info("Truck id[{}] deleted: {}",truck.getId(), isDeleted);
             return isDeleted;
         } else {
             log.info("Truck id[{}] not found", id);
