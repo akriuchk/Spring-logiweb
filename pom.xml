@@ -89,6 +89,7 @@
             <artifactId>validation-api</artifactId>
             <version>1.1.0.Final</version>
         </dependency>
+        <!-- Persistensy dependency -->
 
         <!-- web libs -->
         <dependency>
@@ -108,7 +109,6 @@
         </dependency>
         <!-- web libs -->
 
-
         <!-- logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -126,6 +126,15 @@
             <version>2.5</version>
         </dependency>
         <!-- logging-->
+
+        <!-- utility -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.20</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- utility -->
 
         <!-- testing -->
         <dependency>

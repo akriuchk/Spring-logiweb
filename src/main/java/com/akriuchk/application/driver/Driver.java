@@ -1,14 +1,17 @@
 package com.akriuchk.application.driver;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "drivers", schema = "logiweb")
+@Getter @Setter @NoArgsConstructor
 public class Driver {
 
     @Id
@@ -45,9 +48,6 @@ public class Driver {
     @Column(name = "updated")
     private java.sql.Timestamp updated;
 
-    public Driver() {
-    }
-
     public Driver(String firstName, String surname, long registrationNumber, int hoursInCurrentMonthWorks, String status, String currentCity, String currentTruck) {
         this.firstName = firstName;
         this.surname = surname;
@@ -61,78 +61,6 @@ public class Driver {
     public Driver(long id, String firstName, String surname, long registrationNumber, int hoursInCurrentMonthWorks, String status, String currentCity, String currentTruck) {
         this(firstName, surname, registrationNumber, hoursInCurrentMonthWorks, status, currentCity, currentTruck);
         this.id = id;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public void setRegistrationNumber(long registrationNumber) {
-        this.registrationNumber = registrationNumber;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public long getRegistrationNumber() {
-        return registrationNumber;
-    }
-
-    public int getHoursInCurrentMonthWorks() {
-        return hoursInCurrentMonthWorks;
-    }
-
-    public void setHoursInCurrentMonthWorks(int hoursInCurrentMonthWorks) {
-        this.hoursInCurrentMonthWorks = hoursInCurrentMonthWorks;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getCurrentCity() {
-        return currentCity;
-    }
-
-    public void setCurrentCity(String currentCity) {
-        this.currentCity = currentCity;
-    }
-
-    public String getCurrentTruck() {
-        return currentTruck;
-    }
-
-    public void setCurrentTruck(String currentTruck) {
-        this.currentTruck = currentTruck;
-    }
-
-    public Timestamp getCreated() {
-        return created;
-    }
-
-    public Timestamp getUpdated() {
-        return updated;
     }
 
     @Override

@@ -1,15 +1,18 @@
 package com.akriuchk.application.truck;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Trucks", schema = "logiweb")
+@Getter @Setter @NoArgsConstructor
 public class Truck {
 
     @Id
@@ -41,10 +44,6 @@ public class Truck {
     @Column(name = "updated")
     private java.sql.Timestamp updated;
 
-
-    public Truck() {
-    }
-
     public Truck(String registrationNumber, int shiftSize, int capacity, String condition, String currentCity) {
         this.registrationNumber = registrationNumber;
         this.shiftSize = shiftSize;
@@ -56,70 +55,6 @@ public class Truck {
     public Truck(Long id, String registrationNumber, int shiftSize, int initialCapacity, String initialCondition, String initialCity) {
         this(registrationNumber, shiftSize, initialCapacity, initialCondition, initialCity);
         this.id = id;
-    }
-
-    public String getRegistrationNumber() {
-        return registrationNumber;
-    }
-
-    public int getShiftSize() {
-        return shiftSize;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setShiftSize(int shiftSize) {
-        this.shiftSize = shiftSize;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public String getCurrentCity() {
-        return currentCity;
-    }
-
-    public void updateCondition(String condition) {
-        this.condition = condition;
-    }
-
-    public void updateCurrentCity(String currentCity) {
-        this.currentCity = currentCity;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setRegistrationNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
-    public void setCurrentCity(String currentCity) {
-        this.currentCity = currentCity;
-    }
-
-    public Timestamp getCreated() {
-        return created;
-    }
-
-    public Timestamp getUpdated() {
-        return updated;
     }
 
     @Override

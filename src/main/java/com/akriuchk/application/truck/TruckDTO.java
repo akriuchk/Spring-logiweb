@@ -1,7 +1,16 @@
 package com.akriuchk.application.truck;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TruckDTO {
 
     private long id;
@@ -11,9 +20,6 @@ public class TruckDTO {
     private String condition;
     private String currentCity;
 
-    public TruckDTO() {
-    }
-
     public TruckDTO(String registrationNumber, int shiftSize, int initialCapacity, String initialCondition, String initialCity) {
         this.registrationNumber = registrationNumber;
         this.shiftSize = shiftSize;
@@ -21,64 +27,6 @@ public class TruckDTO {
         this.condition = initialCondition;
         this.currentCity = initialCity;
     }
-
-    public TruckDTO(long id, String registrationNumber, int shiftSize, int capacity, String condition, String currentCity) {
-        this.id = id;
-        this.registrationNumber = registrationNumber;
-        this.shiftSize = shiftSize;
-        this.capacity = capacity;
-        this.condition = condition;
-        this.currentCity = currentCity;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setRegistrationNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
-    }
-
-    public void setShiftSize(int shiftSize) {
-        this.shiftSize = shiftSize;
-    }
-
-    public String getRegistrationNumber() {
-        return registrationNumber;
-    }
-
-    public int getShiftSize() {
-        return shiftSize;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public String getCurrentCity() {
-        return currentCity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
-    public void setCurrentCity(String currentCity) {
-        this.currentCity = currentCity;
-    }
-
 
     @Override
     public boolean equals(Object o) {
