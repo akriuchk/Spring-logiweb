@@ -39,6 +39,8 @@ sonar url: http://192.168.1.100:9000
 
 <server>/api/trucks - trucks api
 
+<server>/api/drivers - drivers api
+
 Tbd: authentification, pagination, better error handling
 
 Reference: https://docs.apigee.com/api-baas/get-started/app-services-data-model-1
@@ -67,7 +69,7 @@ Reference: https://docs.apigee.com/api-baas/get-started/app-services-data-model-
 
 ```json
 {
-  "registerNumber": "7PPDUBAF",
+  "registrationNumber": "7PPDUBAF",
   "shiftSize": 2,
   "capacity": 20,
   "condition": "new",
@@ -92,7 +94,7 @@ Failure: truck by id not found: 400 – Bad Request
 
 
 ```Curl
-curl -X POST -H "Content-Type: application/json" -d '{"registerNumber": "7PPP12CF","shiftSize": 2,"capacity": 20,"condition": "new","currentCity": "Saint-Petersburg"}' "http://localhost:8090/api/trucks/" 
+curl -X POST -H "Content-Type: application/json" -d '{"registrationNumber": "7PPP12CF","shiftSize": 2,"capacity": 20,"condition": "new","currentCity": "Saint-Petersburg"}' "http://localhost:8090/api/trucks/" 
 ```
 
 
@@ -108,31 +110,63 @@ Failure: 404 – Not Found
 
 
 
+## /api/drivers
+
+<server>/api/drivers/ - hello there
+
+### GET
+
+<server>/api/drivers - list of all drivers
+
+<server>/api/drivers/{id} - get driver by its id 200:ok/404:not found
+
+<server>/api/drivers/search?workhours=<weight> - get list of Drivers by required rwork hours. 200:ok/
+
+<server>/api/drivers/search?minCapacityKg=<weight>&resultSize=<size> - search with optional parameter resultSize(default = 1) - specifyed size of collection in callback
+
+
+
+### POST
+
+<server>/api/drivers/ - post new truck in format JSON:
+
+```json
+{
+        "firstName": "Vasya",
+        "surname": "Pterov",
+        "registrationNumber": 2032367888,
+        "hoursInCurrentMonthWorks": 20,
+        "status": "Healthy",
+        "currentCity": "Saint-Petersburg",
+        "currentTruck": "0483e624"
+    }
 ```
-@Id
-@GeneratedValue(strategy = GenerationType.AUTO)
-@Column(name = "id")
-private long id;
 
-@Column(name = "firstName")
-private String firstName;
+Success: 201 - created
 
-@Column(name = "surname")
-private String surname;
+Failed: 406 - not acceptable
 
-@Column(name = "registrationNumber", unique = true)
-private int registrationNumber;
 
-@Column(name = "hoursInCurrentMonthWorks")
-private int hoursInCurrentMonthWorks;
 
-@Column(name = "status")
-private String status;
+### PUT
 
-@Column(name = "currentCity")
-private String currentCity;
+<server>/api/drivers/{id} - put here updated truck info in json - format see POST
 
-@Column(name = "currentTruck")
-private String currentTruck;
-```
+Success: 202 - accepted
+
+Failure: truck by id not found: 400 – Bad Request
+
+
+
+### DELETE
+
+<server>/api/drivers/{id} - delete driver by requested id
+
+Success: 200 - OK
+
+Failure: 404 – Not Found
+
+
+
+
 

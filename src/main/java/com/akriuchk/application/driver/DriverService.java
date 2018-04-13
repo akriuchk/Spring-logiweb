@@ -33,7 +33,7 @@ public class DriverService {
     public long addDriver(Driver driver) {
         //todo add validation
         driverRepository.saveDriver(driver);
-        log.info("Driver [{},[{}]] saved with id[{}]", driver.getSurname(), driver.getFirstName(), driver.getId());
+        log.info("Driver [{},{}] saved with id[{}]", driver.getSurname(), driver.getFirstName(), driver.getId());
         return driver.getId();
     }
 

@@ -1,6 +1,6 @@
 CREATE TABLE `logiweb`.`Trucks` (
   `id` INT NOT NULL,
-  `registerNumber` VARCHAR(45) NOT NULL,
+  `registrationNumber` VARCHAR(45) NOT NULL,
   `shiftSize` INT NOT NULL,
   `capacity` INT NOT NULL,
   `condition` VARCHAR(45) NOT NULL,
