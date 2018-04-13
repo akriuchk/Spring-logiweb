@@ -1,6 +1,10 @@
 package com.akriuchk.application.driver;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -19,7 +23,7 @@ public class Driver {
     private String surname;
 
     @Column(name = "registration_number", unique = true)
-    private int registrationNumber;
+    private long registrationNumber;
 
     @Column(name = "hours_in_current_month_works")
     private int hoursInCurrentMonthWorks;
@@ -33,10 +37,18 @@ public class Driver {
     @Column(name = "current_truck")
     private String currentTruck;
 
+    @CreationTimestamp
+    @Column(name = "created")
+    private java.sql.Timestamp created;
+
+    @UpdateTimestamp
+    @Column(name = "updated")
+    private java.sql.Timestamp updated;
+
     public Driver() {
     }
 
-    public Driver(String firstName, String surname, int registrationNumber, int hoursInCurrentMonthWorks, String status, String currentCity, String currentTruck) {
+    public Driver(String firstName, String surname, long registrationNumber, int hoursInCurrentMonthWorks, String status, String currentCity, String currentTruck) {
         this.firstName = firstName;
         this.surname = surname;
         this.registrationNumber = registrationNumber;
@@ -46,7 +58,7 @@ public class Driver {
         this.currentTruck = currentTruck;
     }
 
-    public Driver(long id, String firstName, String surname, int registrationNumber, int hoursInCurrentMonthWorks, String status, String currentCity, String currentTruck) {
+    public Driver(long id, String firstName, String surname, long registrationNumber, int hoursInCurrentMonthWorks, String status, String currentCity, String currentTruck) {
         this(firstName, surname, registrationNumber, hoursInCurrentMonthWorks, status, currentCity, currentTruck);
         this.id = id;
     }
@@ -67,7 +79,7 @@ public class Driver {
         this.surname = surname;
     }
 
-    public void setRegistrationNumber(int registrationNumber) {
+    public void setRegistrationNumber(long registrationNumber) {
         this.registrationNumber = registrationNumber;
     }
 
@@ -79,7 +91,7 @@ public class Driver {
         return surname;
     }
 
-    public int getRegistrationNumber() {
+    public long getRegistrationNumber() {
         return registrationNumber;
     }
 
@@ -113,6 +125,14 @@ public class Driver {
 
     public void setCurrentTruck(String currentTruck) {
         this.currentTruck = currentTruck;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public Timestamp getUpdated() {
+        return updated;
     }
 
     @Override

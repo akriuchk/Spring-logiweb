@@ -23,7 +23,8 @@ public class DriverConverter {
             );
         } else {
             DriverDto driverDto = (DriverDto) source;
-            return new Driver(driverDto.getId(),
+            return new Driver(
+                    driverDto.getId(),
                     driverDto.getFirstName(),
                     driverDto.getSurname(),
                     driverDto.getRegistrationNumber(),

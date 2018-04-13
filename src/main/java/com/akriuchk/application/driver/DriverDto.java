@@ -8,7 +8,7 @@ public class DriverDto {
 
     private String surname;
 
-    private int registrationNumber;
+    private long registrationNumber;
 
     private int hoursInCurrentMonthWorks;
 
@@ -21,7 +21,7 @@ public class DriverDto {
     public DriverDto() {
     }
 
-    public DriverDto(long id, String firstName, String surname, int registrationNumber, int hoursInCurrentMonthWorks, String status, String currentCity, String currentTruck) {
+    public DriverDto(long id, String firstName, String surname, long registrationNumber, int hoursInCurrentMonthWorks, String status, String currentCity, String currentTruck) {
         this.id = id;
         this.firstName = firstName;
         this.surname = surname;
@@ -48,7 +48,7 @@ public class DriverDto {
         this.surname = surname;
     }
 
-    public void setRegistrationNumber(int registrationNumber) {
+    public void setRegistrationNumber(long registrationNumber) {
         this.registrationNumber = registrationNumber;
     }
 
@@ -60,7 +60,7 @@ public class DriverDto {
         return surname;
     }
 
-    public int getRegistrationNumber() {
+    public long getRegistrationNumber() {
         return registrationNumber;
     }
 

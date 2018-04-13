@@ -48,7 +48,8 @@ public class DriverController {
             DriverDto newDriverDto = (DriverDto) driverConverter.convert(driver, DriverDto.class);
             return ResponseEntity.ok(newDriverDto);
         } else {
-            throw new NotFoundException("Driver id[" + driverId + "] not found");
+            return ResponseEntity.badRequest().body(new DriverDto());
+//            throw new NotFoundException("Driver id[" + driverId + "] not found");
         }
     }
 

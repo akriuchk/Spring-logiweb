@@ -14,9 +14,9 @@ import java.util.List;
 public class DriverService {
     private final Logger log = LoggerFactory.getLogger(DriverService.class);
 
+    @Autowired
     private DriverDao driverRepository;
 
-    @Autowired
     public DriverService(DriverDao driverRepository) {
         this.driverRepository = driverRepository;
     }
