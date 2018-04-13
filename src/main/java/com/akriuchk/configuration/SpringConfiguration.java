@@ -43,7 +43,7 @@ public class SpringConfiguration {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.akriuchk.application.domain", "com.akriuchk.application.truck");
+        sessionFactory.setPackagesToScan("com.akriuchk.application.domain", "com.akriuchk.application.truck", "com.akriuchk.application.driver");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

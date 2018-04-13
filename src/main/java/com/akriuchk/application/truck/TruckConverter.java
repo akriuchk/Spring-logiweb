@@ -31,7 +31,8 @@ public class TruckConverter {
                     sourceTruck.getCurrentCity());
         } else {
             TruckDTO truckDTO = (TruckDTO) source;
-            return new Truck(truckDTO.getId(),
+            return new Truck(
+//                    truckDTO.getId(),
                     truckDTO.getRegisterNumber(),
                     truckDTO.getShiftSize(),
                     truckDTO.getCapacity(),

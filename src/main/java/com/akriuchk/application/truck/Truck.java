@@ -5,7 +5,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -35,11 +35,11 @@ public class Truck {
 
     @CreationTimestamp
     @Column(name = "created")
-    private Date created;
+    private java.sql.Timestamp created;
 
     @UpdateTimestamp
     @Column(name = "updated")
-    private Date updated;
+    private java.sql.Timestamp updated;
 
 
     public Truck() {
@@ -54,12 +54,8 @@ public class Truck {
     }
 
     public Truck(Long id, String registerNumber, int shiftSize, int initialCapacity, String initialCondition, String initialCity) {
+        this(registerNumber, shiftSize, initialCapacity, initialCondition, initialCity);
         this.id = id;
-        this.registerNumber = registerNumber;
-        this.shiftSize = shiftSize;
-        this.capacity = initialCapacity;
-        this.condition = initialCondition;
-        this.currentCity = initialCity;
     }
 
     public String getRegisterNumber() {
@@ -116,6 +112,14 @@ public class Truck {
 
     public void setCurrentCity(String currentCity) {
         this.currentCity = currentCity;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public Timestamp getUpdated() {
+        return updated;
     }
 
     @Override
