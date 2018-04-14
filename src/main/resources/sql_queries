@@ -1,24 +1,40 @@
-CREATE TABLE `logiweb`.`Trucks` (
-  `id` INT NOT NULL,
-  `registrationNumber` VARCHAR(45) NOT NULL,
-  `shiftSize` INT NOT NULL,
-  `capacity` INT NOT NULL,
-  `condition` VARCHAR(45) NOT NULL,
-  `currentCity` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC));
+create table Trucks
+(
+  id bigint auto_increment
+    primary key,
+  register_number varchar(45) not null,
+  shift_size int not null,
+  capacity int not null,
+  `condition` varchar(45) not null,
+  current_city varchar(45) not null,
+  created datetime default CURRENT_TIMESTAMP not null,
+  updated datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+  constraint id_UNIQUE
+  unique (id),
+  constraint Trucks_registerNumber_uindex
+  unique (register_number)
+)
+  engine=InnoDB
+;
 
-CREATE TABLE `logiweb`.`drivers` (
-  `id` BIGINT NOT NULL,
-  `firstname` VARCHAR(45) NOT NULL,
-  `surname` VARCHAR(45) NOT NULL,
-  `registration_number` BIGINT(12) NOT NULL,
-  `hours_in_current_month_works` INT(3) ZEROFILL NOT NULL,
-  `status` VARCHAR(45) NOT NULL,
-  `current_city` VARCHAR(45) NOT NULL,
-  `current_truck` VARCHAR(45) NOT NULL,
-  `created` DATETIME NOT NULL,
-  `updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `registrationNumber_UNIQUE` (`registration_number` ASC));
+create table drivers
+(
+  id bigint not null
+    primary key,
+  firstname varchar(45) not null,
+  surname varchar(45) not null,
+  registration_number bigint(12) not null,
+  hours_in_current_month_works int(3) unsigned zerofill not null,
+  status varchar(45) not null,
+  current_city varchar(45) not null,
+  current_truck varchar(45) not null,
+  created datetime default CURRENT_TIMESTAMP not null,
+  updated datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+  constraint id_UNIQUE
+  unique (id),
+  constraint registrationNumber_UNIQUE
+  unique (registration_number)
+)
+  engine=InnoDB
+;
+
