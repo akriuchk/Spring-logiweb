@@ -18,8 +18,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -54,11 +53,32 @@ public class TruckServiceTest extends AbstractTransactionalTestNGSpringContextTe
     public void tearDown() throws Exception {
     }
 
+
     @Test
-    public void testGetAll() throws Exception {
-        mockMvc.perform(get(restPath + "/").accept(MediaType.APPLICATION_JSON))
+    public void testGetAllPaged() throws Exception {
+        mockMvc.perform((get(restPath + "?offset=0&size=1")).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", equalTo(1)))
+                .andExpect(jsonPath("$[0].id", is(1)));
+
+        mockMvc.perform((get(restPath + "?offset=1&size=1")).accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", equalTo(1)))
+                .andExpect(jsonPath("$[0].id", is(2)));
+
+        mockMvc.perform((get(restPath + "?offset=1&size=2")).accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", equalTo(2)));
+
+        //check default parameter
+        mockMvc.perform((get(restPath + "?offset=0")).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", lessThanOrEqualTo(50)));
+
     }
 
     @Test
@@ -137,7 +157,6 @@ public class TruckServiceTest extends AbstractTransactionalTestNGSpringContextTe
 
     private static String asJsonString(final Object obj) {
         try {
-
             final ObjectMapper mapper = new ObjectMapper();
             final String jsonContent = mapper.writeValueAsString(obj);
             return jsonContent;

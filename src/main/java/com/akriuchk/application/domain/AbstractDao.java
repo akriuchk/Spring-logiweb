@@ -51,13 +51,14 @@ public abstract class AbstractDao<PK extends Serializable, T> {
         return typedQuery.getResultList();
     }
 
+
     public <S> List<T> proceedTypedQ(CriteriaQuery<T> query, ParameterExpression<S> parameterExpression, S paramValue) {
         TypedQuery<T> typedQuery = entityManager.createQuery(query);
         typedQuery.setParameter(parameterExpression, paramValue);
         return typedQuery.getResultList();
     }
 
-    public EntityManager getEntityManager() {
+    protected EntityManager getEntityManager() {
         return entityManager;
     }
 

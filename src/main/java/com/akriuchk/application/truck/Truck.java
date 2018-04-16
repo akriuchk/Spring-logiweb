@@ -10,9 +10,22 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "getTrucksByCapacity",
+                query = "select tr from Truck tr where tr.capacity >= :reqCapacity"
+        ),
+        @NamedQuery(
+                name = "getTrucksByCondition",
+                query = "select tr from Truck tr where tr.condition = :reqCondition"
+        )}
+)
+
 @Entity
 @Table(name = "Trucks", schema = "logiweb")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class Truck {
 
     @Id

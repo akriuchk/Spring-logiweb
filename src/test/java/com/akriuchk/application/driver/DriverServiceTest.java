@@ -67,25 +67,25 @@ public class DriverServiceTest extends AbstractTransactionalTestNGSpringContextT
 
     @Test
     public void testGetAllPaged() throws Exception {
-        mockMvc.perform((get(restPath + "/search?offset=0&size=1")).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform((get(restPath + "?offset=0&size=1")).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", equalTo(1)))
                 .andExpect(jsonPath("$[0].id", is(1)));
 
-        mockMvc.perform((get(restPath + "/search?offset=1&size=1")).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform((get(restPath + "?offset=1&size=1")).accept(MediaType.APPLICATION_JSON))
 //                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", equalTo(1)))
                 .andExpect(jsonPath("$[0].id", is(3)));
 
-        mockMvc.perform((get(restPath + "/search?offset=1&size=2")).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform((get(restPath + "?offset=1&size=2")).accept(MediaType.APPLICATION_JSON))
 //                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", equalTo(2)));
 
         //check default parameter
-        mockMvc.perform((get(restPath + "/search?offset=0")).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform((get(restPath + "?offset=0")).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", lessThanOrEqualTo(50)));

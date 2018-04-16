@@ -28,13 +28,8 @@ public class TruckController {
         this.truckConverter = truckConverter;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    String getAllTrucks() {
-        return "redirect:/api/trucks/search" + "/offset=0";
-    }
-
     @RequestMapping(method = RequestMethod.GET)
-    ResponseEntity<List<TruckDTO>> getDriversPaged(@RequestParam int offset,
+    ResponseEntity<List<TruckDTO>> getDriversPaged(@RequestParam(defaultValue = "0") int offset,
                                                    @RequestParam(defaultValue = "20") int size) {
         List<Truck> resultList = truckService.getAllPaged(offset, size);
 

@@ -20,7 +20,8 @@ public class TruckDaoRepository extends AbstractDao<Long, Truck> {
         persist(truck);
     }
 
-    public void deleteTruckById(long id) {super.delete(getByKey(id));
+    public void deleteTruckById(long id) {
+        super.delete(getByKey(id));
     }
 
     public Truck findTruckByNumber(String number) {
@@ -42,10 +43,20 @@ public class TruckDaoRepository extends AbstractDao<Long, Truck> {
         Root<Truck> from = criteriaQuery.from(Truck.class);
 
         ParameterExpression<Integer> numberParameter = criteriaBuilder.parameter(Integer.class, "numberParameter");
-        Integer tonnes =  (int)Math.ceil(requiredCapacityTonnes);
+        Integer tonnes = (int) Math.ceil(requiredCapacityTonnes);
         criteriaQuery.select(from).where(criteriaBuilder.greaterThan(from.get("capacity"), tonnes));
 
         return proceedTypedQ(criteriaQuery, numberParameter, tonnes);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Truck> findTrucksByCapacity1(double requiredCapacityTonnes) {
+        Integer tonnes = (int) Math.ceil(requiredCapacityTonnes);
+        List<Truck> trucks = getEntityManager().createNamedQuery("getTrucksByCapacity")
+                .setParameter("reqCapacity", tonnes)
+                .getResultList();
+        return trucks;
 
     }
+
 }

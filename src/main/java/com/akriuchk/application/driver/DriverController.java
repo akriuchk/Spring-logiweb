@@ -28,17 +28,6 @@ public class DriverController {
         this.driverConverter = driverConverter;
     }
 
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    String getHello() {
-        return "Hello there! Here are drivers";
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    String getAllDrivers() {
-        return "redirect:/api/drivers/search" + "?offset=0";
-    }
-
     @RequestMapping(value = "/{driverId}", method = RequestMethod.GET)
     ResponseEntity<DriverDto> getDriverById(@PathVariable Long driverId) {
         Driver driver = driverService.getByID(driverId);
@@ -51,8 +40,9 @@ public class DriverController {
         }
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    ResponseEntity<List<Driver>> getDriversPaged(@RequestParam int offset, @RequestParam(defaultValue = "20") int size) {
+    @RequestMapping(method = RequestMethod.GET)
+    ResponseEntity<List<Driver>> getDriversPaged(@RequestParam(defaultValue = "0") int offset,
+                                                 @RequestParam(defaultValue = "20") int size) {
         return ResponseEntity.ok(driverService.getAllPaged(offset, size));
     }
 
