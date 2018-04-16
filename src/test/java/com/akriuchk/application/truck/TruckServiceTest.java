@@ -40,7 +40,7 @@ public class TruckServiceTest extends AbstractTransactionalTestNGSpringContextTe
     private MockMvc mockMvc;
 
     @Autowired
-    ITruckService truckService;
+    TruckService truckService;
 
     @Autowired
     TruckConverter truckConverter;
@@ -56,8 +56,8 @@ public class TruckServiceTest extends AbstractTransactionalTestNGSpringContextTe
 
     @Test
     public void testGetAll() throws Exception {
-        mockMvc.perform(get(restPath).accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
+        mockMvc.perform(get(restPath + "/").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 

@@ -1,7 +1,6 @@
 package com.akriuchk.application.driver;
 
 
-import com.akriuchk.application.controller.exception.NotAcceptedException;
 import com.akriuchk.application.controller.exception.NotFoundException;
 import com.akriuchk.application.controller.exception.UpdateException;
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -37,8 +35,8 @@ public class DriverController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    List<Driver> getAllDrivers() {
-        return driverService.getAll();
+    String getAllDrivers() {
+        return "redirect:/api/drivers/search" + "?offset=0";
     }
 
     @RequestMapping(value = "/{driverId}", method = RequestMethod.GET)
@@ -51,6 +49,11 @@ public class DriverController {
             return ResponseEntity.badRequest().body(new DriverDto());
 //            throw new NotFoundException("Driver id[" + driverId + "] not found");
         }
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    ResponseEntity<List<Driver>> getDriversPaged(@RequestParam int offset, @RequestParam(defaultValue = "20") int size) {
+        return ResponseEntity.ok(driverService.getAllPaged(offset, size));
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)

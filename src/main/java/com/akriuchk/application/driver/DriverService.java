@@ -14,16 +14,15 @@ import java.util.List;
 public class DriverService {
     private final Logger log = LoggerFactory.getLogger(DriverService.class);
 
-    @Autowired
     private DriverDao driverRepository;
 
+    @Autowired
     public DriverService(DriverDao driverRepository) {
         this.driverRepository = driverRepository;
     }
 
-    public List<Driver> getAll() {
-        List<Driver> driverList = driverRepository.findAllDrivers();
-        return driverList;
+    public List<Driver> getAllPaged(int offset, int size) {
+        return driverRepository.getAllPaged(offset, size);
     }
 
     public Driver getByID(long id) {

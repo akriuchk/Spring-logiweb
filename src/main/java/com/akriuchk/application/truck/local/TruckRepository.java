@@ -25,7 +25,7 @@ public class TruckRepository {
         return truckArrayList;
     }
 
-    private TruckRepository() {    }
+    public TruckRepository() {    }
 
     /**
      * Method adds new truck to repo,
@@ -42,6 +42,7 @@ public class TruckRepository {
             id = (id < 0) ? id * (-1) : id;
             truck.setId(id);
             truckArrayList.add(truck);
+            System.err.println("local truck repo");
             return truck;
         } else {
             return truck;

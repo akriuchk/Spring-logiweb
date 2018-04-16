@@ -7,7 +7,6 @@ import java.text.ParseException;
 import java.util.List;
 
 public interface ITruckService {
-    List<Truck> getAll();
 
     Truck getTruckByID(Long id);
 

@@ -1,54 +1,51 @@
 package com.akriuchk.application.truck;
 
 import com.akriuchk.application.domain.AbstractDao;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository()
-public class TruckDaoRepository extends AbstractDao<Long, Truck> implements ITruckDao {
+public class TruckDaoRepository extends AbstractDao<Long, Truck> {
 
-
-    @Override
     public Truck getByKey(long id) {
         return super.getByKey(id);
     }
 
-    @Override
     public void saveTruck(Truck truck) {
         persist(truck);
     }
 
-    @Override
-    public void deleteTruckById(long id) {
-        Query query = getSession().createQuery("delete from Truck where id = :truckid");
-        query.setParameter("truckid", id);
-        query.executeUpdate();
+    public void deleteTruckById(long id) {super.delete(getByKey(id));
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Truck> findAllTrucks() {
-        Criteria criteria = createEntityCriteria();
-        return (List<Truck>) criteria.list();
-    }
-
-    @Override
     public Truck findTruckByNumber(String number) {
-        Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("register_number", number));
-        return (Truck) criteria.uniqueResult();
+        CriteriaBuilder criteriaBuilder = createCriteriaBuilder();
+        CriteriaQuery<Truck> criteriaQuery = criteriaBuilder.createQuery(Truck.class);
+        Root<Truck> from = criteriaQuery.from(Truck.class);
+
+        ParameterExpression<String> numberParameter = criteriaBuilder.parameter(String.class);
+        criteriaQuery.select(from).where(criteriaBuilder.equal(from.get("register_number"), number));
+
+        return proceedTypedQ(criteriaQuery, numberParameter, number).get(0);
     }
 
 
-    @Override
     @SuppressWarnings("unchecked")
     public List<Truck> findTrucksByCapacity(double requiredCapacityTonnes) {
+        CriteriaBuilder criteriaBuilder = createCriteriaBuilder();
+        CriteriaQuery<Truck> criteriaQuery = criteriaBuilder.createQuery(Truck.class);
+        Root<Truck> from = criteriaQuery.from(Truck.class);
+
+        ParameterExpression<Integer> numberParameter = criteriaBuilder.parameter(Integer.class, "numberParameter");
         Integer tonnes =  (int)Math.ceil(requiredCapacityTonnes);
-        Criteria criteria = createEntityCriteria();
-        return criteria.add(Restrictions.ge("capacity", tonnes)).list();
+        criteriaQuery.select(from).where(criteriaBuilder.greaterThan(from.get("capacity"), tonnes));
+
+        return proceedTypedQ(criteriaQuery, numberParameter, tonnes);
+
     }
 }

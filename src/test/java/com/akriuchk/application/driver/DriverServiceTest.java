@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -51,7 +51,6 @@ public class DriverServiceTest extends AbstractTransactionalTestNGSpringContextT
 
     @Test
     public void testAddDriver() throws Exception {
-
         String redirectedUrl = mockMvc.perform(post(restPath + "/").content(asJsonString(getDriver())).contentType(MediaType.APPLICATION_JSON))
 //                .andDo(print())
 //                .andExpect(redirectedUrlPattern(restPath + "/*"))
@@ -64,6 +63,32 @@ public class DriverServiceTest extends AbstractTransactionalTestNGSpringContextT
                 .andDo(print())
                 .andExpect(jsonPath("$.currentCity", is("in MVC")))
                 .andExpect(jsonPath("$.registrationNumber", is(12345678)));
+    }
+
+    @Test
+    public void testGetAllPaged() throws Exception {
+        mockMvc.perform((get(restPath + "/search?offset=0&size=1")).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", equalTo(1)))
+                .andExpect(jsonPath("$[0].id", is(1)));
+
+        mockMvc.perform((get(restPath + "/search?offset=1&size=1")).accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", equalTo(1)))
+                .andExpect(jsonPath("$[0].id", is(3)));
+
+        mockMvc.perform((get(restPath + "/search?offset=1&size=2")).accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", equalTo(2)));
+
+        //check default parameter
+        mockMvc.perform((get(restPath + "/search?offset=0")).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", lessThanOrEqualTo(50)));
 
     }
 
@@ -99,14 +124,14 @@ public class DriverServiceTest extends AbstractTransactionalTestNGSpringContextT
                 .andExpect(status().isNoContent());
     }
 
-    @Test
-    public void testFindByNumber() throws Exception {
-
-    }
-
-    @Test
-    public void testFindByWorkingHours() throws Exception {
-    }
+//    @Test
+//    public void testFindByNumber() throws Exception {
+//
+//    }
+//
+//    @Test
+//    public void testFindByWorkingHours() throws Exception {
+//    }
 
     private static Driver getDriver() {
         return  new Driver("Adam", "Biglow", 12345678,

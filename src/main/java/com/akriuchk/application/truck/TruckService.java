@@ -13,23 +13,20 @@ import java.util.List;
 
 @Service
 @Transactional
-public class TruckService implements ITruckService {
+public class TruckService {
     private final Logger log = LoggerFactory.getLogger(TruckService.class);
 
-    private ITruckDao truckRepository;
+    private TruckDaoRepository truckRepository;
 
     @Autowired
-    public TruckService(ITruckDao truckRepository) {
+    public TruckService(TruckDaoRepository truckRepository) {
         this.truckRepository = truckRepository;
     }
 
-    @Override
-    public List<Truck> getAll() {
-        List<Truck> truckList = truckRepository.findAllTrucks();
-        return truckList;
+    public List<Truck> getAllPaged(int offset, int size) {
+        return truckRepository.getAllPaged(offset, size);
     }
-
-    @Override
+//    @Override
     public Truck getTruckByID(Long id) {
         return truckRepository.getByKey(id);
     }
@@ -41,7 +38,7 @@ public class TruckService implements ITruckService {
      * @return "true" - successfully, "false" - failed, already registered
      * @throws ParseException truck number has invalid registration number
      */
-    @Override
+//    @Override
     public long addTruck(Truck truck) throws ParseException {
         String truckNumber = truck.getRegistrationNumber();
         String validationRegex = "[A-Z0-9]{8}";
@@ -62,7 +59,7 @@ public class TruckService implements ITruckService {
      * @return updated Truck object
      * @throws UpdateException if no changes were made, throw and this exception
      */
-    @Override
+//    @Override
     public Truck updateTruck(Long id, Truck updatedTruck) throws UpdateException {
         log.info("Processing truck id[{}] update request", id);
         //todo validate incoming request with parameters types
@@ -84,7 +81,7 @@ public class TruckService implements ITruckService {
      * @return result of repository method
      * @throws NotFoundException throw an error, if repository doesn't have requested truck
      */
-    @Override
+//    @Override
     public boolean deleteTruck(Long id) throws NotFoundException {
         log.info("Processing deletion request of Truck id[{}]", id);
         truckRepository.deleteTruckById(id);
@@ -97,7 +94,7 @@ public class TruckService implements ITruckService {
      * @param cargoMaxWeightKg weigth of cargo, which must be transfered
      * @return List of 5 trucks, which have at least required capacity
      */
-    @Override
+//    @Override
     public List<Truck> findTruckByCapacity(long cargoMaxWeightKg, int resultSize) {
         double cargoMaxWeightTonnes = cargoMaxWeightKg * 0.001;
         log.info("Search Truck for required capacity: {} (t)", cargoMaxWeightTonnes);

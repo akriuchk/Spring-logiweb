@@ -2,7 +2,11 @@ package com.akriuchk.application.truck;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collector;
 
 @Component
 public class TruckConverter {
@@ -43,5 +47,37 @@ public class TruckConverter {
         }
     }
 
+    List<Truck> convertDtoList(List<TruckDTO> sourceList, Class<?> targetType) {
+        if (sourceList.get(0).getClass() == targetType) {
+            return Collections.EMPTY_LIST;
+        } else {
+            return sourceList.stream()
+                    .map(truckdto -> convert(truckdto, Truck.class))
+                    .collect(Collector.of(
+                            ArrayList::new,
+                            (list, truck) -> list.add((Truck) truck),
+                            (list1, list2) -> {
+                                list1.addAll(list2);
+                                return list1;
+                            })
+                    );
+        }
+    }
 
+    List<TruckDTO> convertList(List<Truck> sourceList, Class<?> targetType) {
+        if (sourceList.get(0).getClass() == targetType) {
+            return Collections.EMPTY_LIST;
+        } else {
+            return sourceList.stream()
+                    .map(truck -> convert(truck, TruckDTO.class))
+                    .collect(Collector.of(
+                            ArrayList::new,
+                            (list, truck) -> list.add((TruckDTO) truck),
+                            (list1, list2) -> {
+                                list1.addAll(list2);
+                                return list1;
+                            })
+                    );
+        }
+    }
 }

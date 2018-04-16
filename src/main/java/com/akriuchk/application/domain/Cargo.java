@@ -1,41 +1,21 @@
 package com.akriuchk.application.domain;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cargo {
-    private final Long id;
+    private long id;
     private String name;
     private int weightKg;
     private Status status;
 
-
-    public Cargo(Long id, String name, int weightKg, Status status) {
-        this.id = id;
-        this.name = name;
-        this.weightKg = weightKg;
-        this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getWeightKg() {
-        return weightKg;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    private interface StatusTypeInterface {
-        String getOperationType();
     }
 
     public enum Status implements StatusTypeInterface {
@@ -43,15 +23,19 @@ public class Cargo {
         PREPARED("Prepared"),
         SHIPPED("Shipped"),
         DELIEVERED("Delievered");
-        private final String type;
+        private final String status;
 
-        Status(String type) {
-            this.type = type;
+        Status(String status) {
+            this.status = status;
         }
 
         @Override
-        public String getOperationType() {
-            return type;
+        public String getStatus() {
+            return status;
         }
+    }
+
+    private interface StatusTypeInterface {
+        String getStatus();
     }
 }

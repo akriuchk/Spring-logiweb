@@ -1,37 +1,17 @@
 package com.akriuchk.application.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Waypoint {
-    private Long id;
+    private long id;
     private String city;
     private Cargo cargo;
     private OperationType operationType;
-
-    public Waypoint(Long id, String city, Cargo cargo, OperationType operationType) {
-        this.id = id;
-        this.city = city;
-        this.cargo = cargo;
-        this.operationType = operationType;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public Cargo getCargo() {
-        return cargo;
-    }
-
-    public OperationType getOperationType() {
-        return operationType;
-    }
-
-    private interface OperationTypeInterface {
-        String getOperationType();
-    }
 
     public enum OperationType implements OperationTypeInterface {
 
@@ -46,5 +26,9 @@ public class Waypoint {
         public String getOperationType() {
             return type;
         }
+    }
+
+    private interface OperationTypeInterface {
+        String getOperationType();
     }
 }

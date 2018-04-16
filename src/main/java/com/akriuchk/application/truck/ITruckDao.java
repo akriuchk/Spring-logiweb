@@ -9,8 +9,6 @@ public interface ITruckDao {
 
     void deleteTruckById(long id);
 
-    List<Truck> findAllTrucks();
-
     Truck findTruckByNumber(String number);
 
     List findTrucksByCapacity(double requiredCapacityKg);
