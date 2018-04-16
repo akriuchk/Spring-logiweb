@@ -1,4 +1,4 @@
-package com.akriuchk.application.domain;
+package com.akriuchk.application.order;
 
 import com.akriuchk.application.truck.Truck;
 import lombok.Getter;

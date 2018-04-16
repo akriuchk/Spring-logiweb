@@ -35,25 +35,12 @@ public class TruckDaoRepository extends AbstractDao<Long, Truck> {
         return proceedTypedQ(criteriaQuery, numberParameter, number).get(0);
     }
 
-
     @SuppressWarnings("unchecked")
-    public List<Truck> findTrucksByCapacity(double requiredCapacityTonnes) {
-        CriteriaBuilder criteriaBuilder = createCriteriaBuilder();
-        CriteriaQuery<Truck> criteriaQuery = criteriaBuilder.createQuery(Truck.class);
-        Root<Truck> from = criteriaQuery.from(Truck.class);
-
-        ParameterExpression<Integer> numberParameter = criteriaBuilder.parameter(Integer.class, "numberParameter");
-        Integer tonnes = (int) Math.ceil(requiredCapacityTonnes);
-        criteriaQuery.select(from).where(criteriaBuilder.greaterThan(from.get("capacity"), tonnes));
-
-        return proceedTypedQ(criteriaQuery, numberParameter, tonnes);
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Truck> findTrucksByCapacity1(double requiredCapacityTonnes) {
+    public List<Truck> findTrucksByCapacity(double requiredCapacityTonnes, int resultSize) {
         Integer tonnes = (int) Math.ceil(requiredCapacityTonnes);
         List<Truck> trucks = getEntityManager().createNamedQuery("getTrucksByCapacity")
                 .setParameter("reqCapacity", tonnes)
+                .setMaxResults(resultSize)
                 .getResultList();
         return trucks;
 

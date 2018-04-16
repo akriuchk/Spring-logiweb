@@ -99,6 +99,6 @@ public class TruckService {
         double cargoMaxWeightTonnes = cargoMaxWeightKg * 0.001;
         log.info("Search Truck for required capacity: {} (t)", cargoMaxWeightTonnes);
 
-        return truckRepository.findTrucksByCapacity1(cargoMaxWeightTonnes);
+        return truckRepository.findTrucksByCapacity(cargoMaxWeightTonnes, resultSize);
     }
 }
