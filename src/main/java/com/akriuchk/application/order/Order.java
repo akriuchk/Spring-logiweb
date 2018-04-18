@@ -3,18 +3,41 @@ package com.akriuchk.application.order;
 import com.akriuchk.application.truck.Truck;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.persistence.*;
 import java.util.List;
 
 
-@Getter
+@Entity
+@Table(name = "orders", schema = "logiweb")
+@Getter @Setter
 @NoArgsConstructor
 public class Order {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Enumerated(EnumType.STRING)
     private OrderState state;
+
+    @OneToMany(targetEntity = Waypoint.class)
     private List<Waypoint> listOfWaypoints;
+
+    @OneToOne(targetEntity = Truck.class)
     private Truck assignedTruck;
 
+    @CreationTimestamp
+    @Column(name = "created")
+    private java.sql.Timestamp created;
+
+    @UpdateTimestamp
+    @Column(name = "updated")
+    private java.sql.Timestamp updated;
 
     public Order(Long id, OrderState state, List<Waypoint> listOfWaypoints) {
         this.id = id;

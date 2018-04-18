@@ -2,6 +2,7 @@ package com.akriuchk.application.driver;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,7 +20,8 @@ public class Driver {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
+    @NonNull
     private String firstName;
 
     @Column(name = "surname")

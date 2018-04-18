@@ -22,7 +22,7 @@ import java.util.Objects;
 )
 
 @Entity
-@Table(name = "Trucks", schema = "logiweb")
+@Table(name = "trucks", schema = "logiweb")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -35,7 +35,6 @@ public class Truck {
 
     @Size(min = 6, max = 8)
     @Column(name = "register_number", unique = true)
-//    @Setter(AccessLevel.PACKAGE)
     private String registrationNumber;
 
     @Column(name = "shift_size")
