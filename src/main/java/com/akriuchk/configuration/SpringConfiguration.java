@@ -47,7 +47,10 @@ public class SpringConfiguration {
         LocalContainerEntityManagerFactoryBean entityManager
                 = new LocalContainerEntityManagerFactoryBean();
         entityManager.setDataSource(dataSource());
-        entityManager.setPackagesToScan("com.akriuchk.application.domain", "com.akriuchk.application.truck", "com.akriuchk.application.driver");
+        entityManager.setPackagesToScan("com.akriuchk.application.domain",
+                "com.akriuchk.application.truck",
+                "com.akriuchk.application.order",
+                "com.akriuchk.application.driver");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         entityManager.setJpaVendorAdapter(vendorAdapter);

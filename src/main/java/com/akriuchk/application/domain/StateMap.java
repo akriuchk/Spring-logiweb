@@ -1,87 +1,63 @@
 package com.akriuchk.application.domain;
 
-
-import org.jgrapht.Graph;
-import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Set;
 
 public class StateMap {
-    public static SimpleWeightedGraph<String, Road> getGraph() {
-        Graph<String, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
-        String Helsinki = ("Helsinki");
-        String SPb = ("Saint-Peterburg");
-        String Moscow = ("Moscow");
-        String Vladimir = ("Vladimir");
-        String Pekin = ("Pekin");
+    private final Logger log = LoggerFactory.getLogger(StateMap.class);
 
+    private String stateName;
+    private SimpleWeightedGraph<String, Road> roadGraph;
+    private DijkstraShortestPath<String, Road> shortestPath;
 
-
-//        DijkstraShortestPath<String, DefaultEdge> dijkstraAlg = new DijkstraShortestPath<>(g);
-//
-//        ShortestPathAlgorithm.SingleSourcePaths<String, DefaultEdge> iPaths = dijkstraAlg.getPaths("Saint-Peterburg");
-//        System.out.println(iPaths.getPath("Pekin") + "\n");
-
-
-        SimpleWeightedGraph<String, Road> g1 = new SimpleWeightedGraph<>(Road.class);
-
-        g1.addVertex(Helsinki);
-        g1.addVertex(SPb);
-        g1.addVertex(Moscow);
-        g1.addVertex(Vladimir);
-        g1.addVertex(Pekin);
-
-        Road E01 = new Road("E01", 50);
-        System.out.println(g1.addEdge(Helsinki, SPb, E01));
-        g1.setEdgeWeight(E01, E01.getDistance());
-
-        Road E02 = new Road("E02", 320);
-        System.out.println(g1.addEdge(Helsinki, Moscow, E02));
-        g1.setEdgeWeight(E02, E02.getDistance());
-
-
-        Road E03 = new Road("E03", 370);
-        System.out.println(g1.addEdge(SPb, Vladimir, E03));
-        g1.setEdgeWeight(E03, E03.getDistance());
-
-
-        Road E04 = new Road("E04", 300);
-        System.out.println(g1.addEdge(SPb, Moscow, E04));
-        g1.setEdgeWeight(E04, E04.getDistance());
-
-
-        Road E05 = new Road("E05", 40);
-        System.out.println(g1.addEdge(Vladimir, Moscow, E05));
-        g1.setEdgeWeight(E05, E05.getDistance());
-
-
-        Road E06 = new Road("E06", 350);
-        System.out.println(g1.addEdge(Vladimir, Pekin, E06));
-        g1.setEdgeWeight(E06, E06.getDistance());
-
-
-        Road E07 = new Road("E07", 800);
-        System.out.println(g1.addEdge(Moscow, Pekin, E07));
-        g1.setEdgeWeight(E07, E07.getDistance());
-
-        return g1;
+    public StateMap(String stateName) {
+        this.stateName = stateName;
+        this.roadGraph = new SimpleWeightedGraph<>(Road.class);
+        this.shortestPath = new DijkstraShortestPath<>(roadGraph);
     }
 
-    public static void itinerary(SimpleWeightedGraph<String, Road> map, String departure, String destination) {
-        DijkstraShortestPath<String, Road> p = new DijkstraShortestPath<String, Road>(map);
+    public StateMap(String stateName, List<String> cityList, List<Road> roads) {
+        this(stateName);
 
-        ShortestPathAlgorithm.SingleSourcePaths<String, Road> iPaths = p.getPaths(departure);
-        System.out.println("iPath: " +  iPaths.getWeight(destination) + "\n");
-//        System.out.println(iPaths.getPath("Pekin") + "\n");
+        for (String s : cityList) {
+            addCity(s);
+        }
+        for (Road road : roads) {
+            addRoad(road);
+        }
 
-        System.out.println("Path: " + iPaths.getPath(destination));
-//        System.out.println("Cost of shortest (i.e cheapest) path = £" + p.getPathLength() );
     }
 
-    public static void main(String[] args) {
-        itinerary(getGraph(), "Helsinki", "Pekin");
+    public boolean addCity(String city) {
+        boolean isSuccess = roadGraph.addVertex(city);
+        if (isSuccess) {
+            log.info("City '{}' added to '{}' sucessfully", city, stateName);
+        } else {
+            log.info("City '{}' wasn't add to '{}'", city, stateName);
+        }
+        return isSuccess;
     }
 
+    public void addRoad(Road road) {
+        log.info("Adding road '{}' from '{}' to '{}'. Distance: {}", road.getRoadNumber(), road.getSource(), road.getDestination(), road.getDistance());
+        roadGraph.addEdge(road.getSource(), road.getDestination(), road);
+        roadGraph.setEdgeWeight(road, road.getDistance());
+    }
+
+    public List<Road> getRoadPath(String source, String destination) {
+        return shortestPath.getPath(source, destination).getEdgeList();
+    }
+
+    public List<String> getCityList(String source, String destination) {
+        return shortestPath.getPath(source, destination).getVertexList();
+    }
+
+    public Set<String> getAllCities() {
+        return roadGraph.vertexSet();
+    }
 }
