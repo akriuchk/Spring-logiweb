@@ -43,7 +43,6 @@ public class TruckDaoRepository extends AbstractDao<Long, Truck> {
                 .setMaxResults(resultSize)
                 .getResultList();
         return trucks;
-
     }
 
 }

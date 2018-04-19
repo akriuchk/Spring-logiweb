@@ -1,5 +1,6 @@
 package com.akriuchk.application.order;
 
+import com.akriuchk.application.order.cargo.Cargo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "waypoints", schema = "logiweb")
@@ -22,8 +22,8 @@ public class Waypoint {
     private long id;
     private String city;
 
-    @OneToMany(targetEntity = Cargo.class)
-    private List<Cargo> cargoes;
+    @OneToOne(targetEntity = Cargo.class)
+    private Cargo cargo;
 
     @Enumerated(EnumType.STRING)
     private OperationType operationType;

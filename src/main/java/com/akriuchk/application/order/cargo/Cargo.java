@@ -1,6 +1,7 @@
-package com.akriuchk.application.order;
+package com.akriuchk.application.order.cargo;
 
 
+import com.akriuchk.application.order.Waypoint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,12 @@ public class Cargo {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @OneToOne(targetEntity = Waypoint.class)
+    private Waypoint loadPoint;
+
+    @OneToOne(targetEntity = Waypoint.class)
+    private Waypoint unloadPoint;
 
     @CreationTimestamp
     @Column(name = "created")

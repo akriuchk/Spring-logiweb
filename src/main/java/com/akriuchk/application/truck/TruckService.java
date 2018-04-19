@@ -26,7 +26,7 @@ public class TruckService {
     public List<Truck> getAllPaged(int offset, int size) {
         return truckRepository.getAllPaged(offset, size);
     }
-//    @Override
+
     public Truck getTruckByID(Long id) {
         return truckRepository.getByKey(id);
     }

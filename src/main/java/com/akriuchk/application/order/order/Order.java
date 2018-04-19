@@ -1,5 +1,6 @@
-package com.akriuchk.application.order;
+package com.akriuchk.application.order.order;
 
+import com.akriuchk.application.order.Waypoint;
 import com.akriuchk.application.truck.Truck;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "getOrdersByState",
+                query = "select ord from Order ord where ord.state >= :reqState"
+        )}
+)
 
 @Entity
 @Table(name = "orders", schema = "logiweb")
@@ -48,7 +55,7 @@ public class Order {
     public enum OrderState implements OrderStateInterface {
 
         COMPLETED("Completed"),
-        INWORK("InWork");
+        INWORK("Processing");
         private final String type;
 
         OrderState(String type) {
