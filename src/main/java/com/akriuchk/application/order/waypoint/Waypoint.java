@@ -1,4 +1,4 @@
-package com.akriuchk.application.order;
+package com.akriuchk.application.order.waypoint;
 
 import com.akriuchk.application.order.cargo.Cargo;
 import lombok.AllArgsConstructor;

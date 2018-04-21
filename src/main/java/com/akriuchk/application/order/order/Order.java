@@ -1,6 +1,6 @@
 package com.akriuchk.application.order.order;
 
-import com.akriuchk.application.order.Waypoint;
+import com.akriuchk.application.order.cargo.Cargo;
 import com.akriuchk.application.truck.Truck;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.List;
 
 @NamedQueries({
         @NamedQuery(
@@ -32,8 +31,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderState state;
 
-    @OneToMany(targetEntity = Waypoint.class)
-    private List<Waypoint> listOfWaypoints;
+    @OneToOne(targetEntity = Cargo.class)
+    private Cargo cargo;
 
     @OneToOne(targetEntity = Truck.class)
     private Truck assignedTruck;
@@ -46,10 +45,13 @@ public class Order {
     @Column(name = "updated")
     private java.sql.Timestamp updated;
 
-    public Order(Long id, OrderState state, List<Waypoint> listOfWaypoints) {
-        this.id = id;
+    public Order(OrderState state, Cargo cargo) {
         this.state = state;
-        this.listOfWaypoints = listOfWaypoints;
+        this.cargo = cargo;
+    }
+    public Order(Long id, OrderState state, Cargo cargo) {
+        this(state, cargo);
+        this.id = id;
     }
 
     public enum OrderState implements OrderStateInterface {

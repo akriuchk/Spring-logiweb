@@ -1,7 +1,7 @@
 package com.akriuchk.application.order.cargo;
 
 
-import com.akriuchk.application.order.Waypoint;
+import com.akriuchk.application.order.waypoint.Waypoint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

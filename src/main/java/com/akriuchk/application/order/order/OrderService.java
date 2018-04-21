@@ -1,8 +1,8 @@
 package com.akriuchk.application.order.order;
 
 
-import com.akriuchk.application.order.Waypoint;
 import com.akriuchk.application.order.cargo.Cargo;
+import com.akriuchk.application.order.waypoint.Waypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
