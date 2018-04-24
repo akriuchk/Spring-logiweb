@@ -35,10 +35,11 @@ public class OrderConverter {
                     sourceTruck.getUpdated());
         } else {
             OrderDTO orderDTO = (OrderDTO) source;
+            Order order = new Order();
+            order.setId(orderDTO.getCargo());
             return new Order(
-//                    orderDTO.getId(),
-                    Order.OrderState.valueOf(orderDTO.getState()),
-                    orderService.getOrderByID(orderDTO.getId()).getListOfWaypoints());
+                    //todo
+            );
         }
     }
 

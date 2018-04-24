@@ -1,5 +1,6 @@
 package com.akriuchk.application.order.order;
 
+import com.akriuchk.application.order.cargo.Cargo;
 import com.akriuchk.configuration.SpringConfiguration;
 import com.akriuchk.configuration.SpringInit;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,7 +48,7 @@ public class OrderControllerTest extends AbstractTransactionalTestNGSpringContex
 
     @Test
     public void testAddNewOrder() throws Exception {
-        String redirectedUrl = mockMvc.perform(post(restPath + "/").content(asJsonString(getDriver())).contentType(MediaType.APPLICATION_JSON))
+        String redirectedUrl = mockMvc.perform(post(restPath + "/").content(asJsonString(getOrder())).contentType(MediaType.APPLICATION_JSON))
 //                .andDo(print())
 //                .andExpect(redirectedUrlPattern(restPath + "/*"))
                 .andExpect(status().isCreated())
@@ -64,9 +65,21 @@ public class OrderControllerTest extends AbstractTransactionalTestNGSpringContex
 
     private static OrderDTO getOrder() {
         OrderDTO o = new OrderDTO();
+
         o.setState(Order.OrderState.INWORK.getOrderState());
+
+        return o;
+
     }
 
+    private static Cargo getCargo() {
+        Cargo c = new Cargo();
+        c.setName("Test stuff");
+        c.setWeightKg(20);
+        c.setStatus(Cargo.Status.PREPARED);
+
+        return c;
+    }
 
 
     private static String asJsonString(final Object obj) {
