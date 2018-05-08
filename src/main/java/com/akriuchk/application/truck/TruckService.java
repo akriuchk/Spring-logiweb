@@ -26,7 +26,6 @@ public class TruckService {
     public List<Truck> getAllPaged(int offset, int size) {
         return truckRepository.getAllPaged(offset, size);
     }
-
     public Truck getTruckByID(Long id) {
         return truckRepository.getByKey(id);
     }
@@ -38,7 +37,6 @@ public class TruckService {
      * @return "true" - successfully, "false" - failed, already registered
      * @throws ParseException truck number has invalid registration number
      */
-//    @Override
     public long addTruck(Truck truck) throws ParseException {
         String truckNumber = truck.getRegistrationNumber();
         String validationRegex = "[A-Z0-9]{8}";
@@ -59,7 +57,6 @@ public class TruckService {
      * @return updated Truck object
      * @throws UpdateException if no changes were made, throw and this exception
      */
-//    @Override
     public Truck updateTruck(Long id, Truck updatedTruck) throws UpdateException {
         log.info("Processing truck id[{}] update request", id);
         //todo validate incoming request with parameters types
@@ -81,7 +78,6 @@ public class TruckService {
      * @return result of repository method
      * @throws NotFoundException throw an error, if repository doesn't have requested truck
      */
-//    @Override
     public boolean deleteTruck(Long id) throws NotFoundException {
         log.info("Processing deletion request of Truck id[{}]", id);
         truckRepository.deleteTruckById(id);
@@ -89,12 +85,12 @@ public class TruckService {
     }
 
     /**
-     * find 5 new trucks with required capacity
+     * get list with required size of trucks with required capacity
      *
      * @param cargoMaxWeightKg weigth of cargo, which must be transfered
-     * @return List of 5 trucks, which have at least required capacity
+     * @param resultSize size of result truck collection
+     * @return
      */
-//    @Override
     public List<Truck> findTruckByCapacity(long cargoMaxWeightKg, int resultSize) {
         double cargoMaxWeightTonnes = cargoMaxWeightKg * 0.001;
         log.info("Search Truck for required capacity: {} (t)", cargoMaxWeightTonnes);

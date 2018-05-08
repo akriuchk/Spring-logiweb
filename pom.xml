@@ -26,6 +26,7 @@
         <maven.compiler.plugin>3.7.0</maven.compiler.plugin>
         <tomcat7.maven.plugin.version>2.2</tomcat7.maven.plugin.version>
         <sonar.maven.plugin.version>3.4.0.905</sonar.maven.plugin.version>
+        <aspectj.version>1.8.10</aspectj.version> <!-- for allure -->
     </properties>
 
     <dependencies>
@@ -155,6 +156,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.framework.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>1.3</version>
@@ -173,9 +180,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.framework.version}</version>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>2.6.0</version>
             <scope>test</scope>
         </dependency>
         <!-- testing -->
@@ -213,6 +220,29 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
+
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-surefire-plugin</artifactId>-->
+                <!--<version>2.20</version>-->
+                <!--<configuration>-->
+                    <!--<argLine>-->
+                        <!-- -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"-->
+                    <!--</argLine>-->
+                <!--</configuration>-->
+                <!--<dependencies>-->
+                    <!--<dependency>-->
+                    <!--<groupId>org.aspectj</groupId>-->
+                    <!--<artifactId>aspectjweaver</artifactId>-->
+                    <!--<version>1.8.0</version>-->
+                <!--</dependency>-->
+                <!--</dependencies>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>io.qameta.allure</groupId>-->
+                <!--<artifactId>allure-maven</artifactId>-->
+                <!--<version>2.8</version>-->
+            <!--</plugin>-->
 
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>

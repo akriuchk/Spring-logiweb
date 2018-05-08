@@ -29,7 +29,8 @@ public class TruckConverter {
             return source;
         } else if (targetType == TruckDTO.class) {
             Truck sourceTruck = (Truck) source;
-            return new TruckDTO(sourceTruck.getId(),
+            return new TruckDTO(
+//                    sourceTruck.getId(),
                     sourceTruck.getRegistrationNumber(),
                     sourceTruck.getShiftSize(),
                     sourceTruck.getCapacity(),

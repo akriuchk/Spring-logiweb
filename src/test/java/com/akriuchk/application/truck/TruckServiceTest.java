@@ -56,28 +56,22 @@ public class TruckServiceTest extends AbstractTransactionalTestNGSpringContextTe
 
     @Test
     public void testGetAllPaged() throws Exception {
+        Truck t = new Truck("AB12CD34", 3, 15, "test", "in MVC");
+        String redirectedUrl = mockMvc.perform(post(restPath + "/").content(asJsonString(t)).contentType(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(redirectedUrlPattern(restPath + "/*"))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getRedirectedUrl();
         mockMvc.perform((get(restPath + "?offset=0&size=1")).accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", equalTo(1)))
-                .andExpect(jsonPath("$[0].id", is(1)));
-
-        mockMvc.perform((get(restPath + "?offset=1&size=1")).accept(MediaType.APPLICATION_JSON))
 //                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", equalTo(1)))
-                .andExpect(jsonPath("$[0].id", is(2)));
-
-        mockMvc.perform((get(restPath + "?offset=1&size=2")).accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", equalTo(2)));
+                .andExpect(jsonPath("$.length()", equalTo(1)));
 
         //check default parameter
         mockMvc.perform((get(restPath + "?offset=0")).accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
+//                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", lessThanOrEqualTo(50)));
+                .andExpect(jsonPath("$.length()", lessThanOrEqualTo(20)));
 
     }
 
@@ -91,10 +85,9 @@ public class TruckServiceTest extends AbstractTransactionalTestNGSpringContextTe
                 .andReturn().getResponse().getRedirectedUrl();
         Assert.notNull(redirectedUrl, "check redirectUrl for null");
 
-        mockMvc.perform((get(restPath + "/1")).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform((get(redirectedUrl)).accept(MediaType.APPLICATION_JSON))
 //                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.registrationNumber", is("AB12CD34")));
     }
 
@@ -149,14 +142,14 @@ public class TruckServiceTest extends AbstractTransactionalTestNGSpringContextTe
 
     @Test
     public void testFindTruckByCapacity() throws Exception {
-        Truck t = new Truck("AB12CD34", 3, 500, "test", "for_capacity_test");
+        Truck t = new Truck("AB12CD34", 3, 50, "test", "for_capacity_test");
         mockMvc.perform(post(restPath + "/").content(asJsonString(t)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getRedirectedUrl();
 
         String truckByCapacity = "$.*[?(@.currentCity == '%s')]";
 
-        mockMvc.perform((get(restPath + "/search?minCapacityKg=19999")).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform((get(restPath + "/search?minCapacityKg=49999")).accept(MediaType.APPLICATION_JSON))
 //                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(1)))
