@@ -4,10 +4,26 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss} %-5p %c{1} - %msg%n" />
         </Console>
+
+        <RollingFile name="RollingFile"
+                    filename="${sys:catalina.home}/logs/logiweb-backend.log"
+                    filePattern="logfile-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{HH:mm:ss} %-5p %c{1} - %msg%n" />
+
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 kB"/>
+            </Policies>
+        </RollingFile>
+
+            <!--<File name="file" fileName="${sys:catalina.home}/logs/logiweb-backend.log" append="true">-->
+                <!--<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5p %c{1}:%L - %m%n"/>-->
+            <!--</File>-->
     </Appenders>
     <Loggers>
         <Root level="info">
             <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+            <!--<AppenderRef ref="file" />-->
         </Root>
     </Loggers>
 </Configuration>
