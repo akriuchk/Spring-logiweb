@@ -1,6 +1,5 @@
 package com.akriuchk.application.truck;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,10 +9,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class TruckDTO {
 
-    private long id;
     private String registrationNumber;
     private int shiftSize;
     private int capacity;

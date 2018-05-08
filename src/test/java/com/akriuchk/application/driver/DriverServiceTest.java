@@ -39,10 +39,10 @@ public class DriverServiceTest extends AbstractTransactionalTestNGSpringContextT
     private MockMvc mockMvc;
 
     @Autowired
-    DriverService driverService;
+    private DriverService driverService;
 
     @Autowired
-    DriverConverter driverConverter;
+    private DriverConverter driverConverter;
 
     @BeforeMethod
     public void setUp() throws Exception {
@@ -67,17 +67,24 @@ public class DriverServiceTest extends AbstractTransactionalTestNGSpringContextT
 
     @Test
     public void testGetAllPaged() throws Exception {
+        mockMvc.perform(post(restPath + "/").content(asJsonString(getDriver())).contentType(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(redirectedUrlPattern(restPath + "/*"))
+                .andExpect(status().isCreated())
+//                .andReturn().getResponse().getRedirectedUrl()
+        ;
+
         mockMvc.perform((get(restPath + "?offset=0&size=1")).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", equalTo(1)))
-                .andExpect(jsonPath("$[0].id", is(1)));
+                .andExpect(jsonPath("$[0].id", greaterThan(15)));
 
         mockMvc.perform((get(restPath + "?offset=1&size=1")).accept(MediaType.APPLICATION_JSON))
 //                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", equalTo(1)))
-                .andExpect(jsonPath("$[0].id", is(3)));
+                .andExpect(jsonPath("$[0].id", greaterThan(15)));
 
         mockMvc.perform((get(restPath + "?offset=1&size=2")).accept(MediaType.APPLICATION_JSON))
 //                .andDo(print())

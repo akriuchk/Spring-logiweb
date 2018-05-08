@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,9 +42,15 @@ public class DriverController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    ResponseEntity<List<Driver>> getDriversPaged(@RequestParam(defaultValue = "0") int offset,
+    ResponseEntity<List<DriverDto>> getDriversPaged(@RequestParam(defaultValue = "0") int offset, //todo sort
                                                  @RequestParam(defaultValue = "20") int size) {
-        return ResponseEntity.ok(driverService.getAllPaged(offset, size));
+        List<Driver> entityList = driverService.getAllPaged(offset, size);
+        List<DriverDto> list = new ArrayList<>();
+        for (Driver driver : entityList) {
+            list.add((DriverDto) driverConverter.convert(driver, DriverDto.class));
+        }
+
+        return ResponseEntity.ok(list);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
