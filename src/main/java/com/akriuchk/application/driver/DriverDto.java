@@ -11,8 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DriverDto {
 
-    private long id;
-
     private String firstName;
 
     private String surname;

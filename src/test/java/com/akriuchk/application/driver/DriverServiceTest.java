@@ -77,14 +77,7 @@ public class DriverServiceTest extends AbstractTransactionalTestNGSpringContextT
         mockMvc.perform((get(restPath + "?offset=0&size=1")).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", equalTo(1)))
-                .andExpect(jsonPath("$[0].id", greaterThan(15)));
-
-        mockMvc.perform((get(restPath + "?offset=1&size=1")).accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", equalTo(1)))
-                .andExpect(jsonPath("$[0].id", greaterThan(15)));
+                .andExpect(jsonPath("$.length()", equalTo(1)));
 
         mockMvc.perform((get(restPath + "?offset=1&size=2")).accept(MediaType.APPLICATION_JSON))
 //                .andDo(print())
@@ -95,7 +88,7 @@ public class DriverServiceTest extends AbstractTransactionalTestNGSpringContextT
         mockMvc.perform((get(restPath + "?offset=0")).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", lessThanOrEqualTo(50)));
+                .andExpect(jsonPath("$.length()", lessThanOrEqualTo(20)));
 
     }
 

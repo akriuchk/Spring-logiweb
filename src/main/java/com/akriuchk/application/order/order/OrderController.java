@@ -24,8 +24,21 @@ public class OrderController {
         this.orderConverter = orderConverter;
     }
 
+
+    @RequestMapping(value = "/{orderId}", method = RequestMethod.GET)
+    ResponseEntity<OrderDTO> getOrderById(@PathVariable Long orderId) {
+        Order order = orderService.getOrderByID(orderId);
+        if (null != order) {
+            OrderDTO newOrderDto = (OrderDTO) orderConverter.convert(order, OrderDTO.class);
+            return ResponseEntity.ok(newOrderDto);
+        } else {
+            return ResponseEntity.badRequest().body(new OrderDTO());
+//            throw new NotFoundException("Order id[" + orderId + "] not found");
+        }
+    }
+
     @RequestMapping(method = RequestMethod.GET)
-    ResponseEntity<List<OrderDTO>> getDriversPaged(@RequestParam(defaultValue = "0") int offset,
+    ResponseEntity<List<OrderDTO>> getOrdersPaged(@RequestParam(defaultValue = "0") int offset,
                                                    @RequestParam(defaultValue = "20") int size) {
         List<Order> resultList = orderService.getAllPaged(offset, size);
 

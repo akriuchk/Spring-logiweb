@@ -28,6 +28,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+
+    private String publicId;
+
     @Enumerated(EnumType.STRING)
     private OrderState state;
 
@@ -36,6 +39,10 @@ public class Order {
 
     @OneToOne(targetEntity = Truck.class)
     private Truck assignedTruck;
+
+    private String loadCity;
+
+    private String uploadCity;
 
     @CreationTimestamp
     @Column(name = "created")
@@ -54,10 +61,19 @@ public class Order {
         this.id = id;
     }
 
+    public Order(String publicId, OrderState state, Cargo cargo, Truck assignedTruck, String loadCity, String uploadCity) {
+        this.publicId = publicId;
+        this.state = state;
+        this.cargo = cargo;
+        this.assignedTruck = assignedTruck;
+        this.loadCity = loadCity;
+        this.uploadCity = uploadCity;
+    }
+
     public enum OrderState implements OrderStateInterface {
 
         COMPLETED("Completed"),
-        INWORK("Processing");
+        PROCESSING("Processing");
         private final String type;
 
         OrderState(String type) {

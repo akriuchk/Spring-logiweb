@@ -1,5 +1,7 @@
 package com.akriuchk.application.order.order;
 
+import com.akriuchk.application.order.cargo.Cargo;
+import com.akriuchk.application.truck.Truck;
 import com.akriuchk.application.truck.TruckService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,25 +28,31 @@ public class OrderConverter {
         if (source.getClass() == targetType) {
             return source;
         } else if (targetType == OrderDTO.class) {
-            Order sourceTruck = (Order) source;
-            return new OrderDTO(sourceTruck.getId(),
-                    sourceTruck.getState().getOrderState(),
-                    sourceTruck.getCargo().getId(),
-                    sourceTruck.getAssignedTruck().getId(),
-                    sourceTruck.getCreated(),
-                    sourceTruck.getUpdated());
+            Order sourceOrder = (Order) source;
+            return new OrderDTO(sourceOrder.getPublicId(),
+                    sourceOrder.getState().getOrderState(),
+                    sourceOrder.getCargo().getPublicId(),
+                    sourceOrder.getAssignedTruck().getRegistrationNumber(),
+                    sourceOrder.getLoadCity(),
+                    sourceOrder.getUploadCity()
+                    );
         } else {
             OrderDTO orderDTO = (OrderDTO) source;
-            Order order = new Order();
-            order.setId(orderDTO.getCargo());
+
             return new Order(
-                    //todo
+                    orderDTO.getPublicId(),
+                    Order.OrderState.valueOf(orderDTO.getState().toUpperCase()),
+                    new Cargo(),
+                    new Truck(),
+                    orderDTO.getLoadCity(),
+                    orderDTO.getUploadCity()
             );
         }
     }
 
     List<Order> convertDtoList(List<OrderDTO> sourceList, Class<?> targetType) {
         if (sourceList.get(0).getClass() == targetType) {
+//            sourceList.getClass().getGenericSuperclass().getTypeName() == targetType.getGenericSuperclass().getTypeName()
             return Collections.EMPTY_LIST;
         } else {
             return sourceList.stream()

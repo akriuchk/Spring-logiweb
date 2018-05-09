@@ -1,8 +1,6 @@
 package com.akriuchk.application.order.order;
 
 
-import com.akriuchk.application.order.cargo.Cargo;
-import com.akriuchk.application.order.waypoint.Waypoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -40,22 +37,14 @@ public class OrderService {
         return order.getId();
     }
 
-    private void validateOrder(Order order) throws ValidationException{
-        List<Waypoint> waypoints = order.getListOfWaypoints();
-        Optional<Cargo> errorCargo = waypoints.stream()
-                .map(Waypoint::getCargo)
-                .filter(cargo -> cargo.getLoadPoint() == null || cargo.getUnloadPoint() == null)
-                .findAny();
-
-        if (errorCargo.isPresent()) {
-            Cargo c = errorCargo.get();
-            String errorText = "Check cargo %s(%s) - %s point missed";
-            if (c.getLoadPoint() == null) {
-                errorText = String.format(errorText, c.getId(), c.getName(), "Load");
-            }
-            if (c.getUnloadPoint() == null) {
-                errorText = String.format(errorText, c.getId(), c.getName(), "Unload");
-            }
+    private void validateOrder(Order order) throws ValidationException {
+        String errorText = "Check order %s - %s point missed";
+        if (order.getLoadCity().isEmpty() || order.getLoadCity() == null) {
+            errorText = String.format(errorText, order.getPublicId(), "Load");
+            throw new ValidationException(errorText);
+        }
+        if (order.getUploadCity().isEmpty() || order.getUploadCity() == null) {
+            errorText = String.format(errorText, order.getPublicId(), "Upload");
             throw new ValidationException(errorText);
         }
     }

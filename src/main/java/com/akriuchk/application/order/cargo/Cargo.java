@@ -1,7 +1,6 @@
 package com.akriuchk.application.order.cargo;
 
 
-import com.akriuchk.application.order.waypoint.Waypoint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +23,8 @@ public class Cargo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    private String publicId;
+
     private String name;
 
     @Column(name = "weight_kg")
@@ -31,12 +32,6 @@ public class Cargo {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
-    @OneToOne(targetEntity = Waypoint.class)
-    private Waypoint loadPoint;
-
-    @OneToOne(targetEntity = Waypoint.class)
-    private Waypoint unloadPoint;
 
     @CreationTimestamp
     @Column(name = "created")

@@ -20,7 +20,6 @@ import org.testng.annotations.Test;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -102,7 +101,7 @@ public class TruckServiceTest extends AbstractTransactionalTestNGSpringContextTe
         Assert.notNull(redirectedUrl, "check redirectUrl for null");
 
         mockMvc.perform(get(redirectedUrl).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andDo(print())
+//                .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.currentCity", is("in MVC")))
                 .andExpect(jsonPath("$.registrationNumber", is("AB12CD34")));
     }

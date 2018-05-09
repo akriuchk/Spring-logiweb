@@ -2,25 +2,23 @@ package com.akriuchk.application.order.order;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class OrderDTO {
 
-    private long id;
+    private String publicId;
 
     private String state;
 
-    private long cargo;
+    private String cargo;
 
-    private long assignedTruck;
+    private String assignedTruckNumber;
 
-    private java.sql.Timestamp created;
+    private String loadCity;
 
-    private java.sql.Timestamp updated;
+    private String uploadCity;
 }
