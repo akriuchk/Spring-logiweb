@@ -11,7 +11,7 @@
             <PatternLayout pattern="%d{HH:mm:ss} %-5p %c{1} - %msg%n" />
 
             <Policies>
-                <SizeBasedTriggeringPolicy size="10 kB"/>
+                <SizeBasedTriggeringPolicy size="10 mB"/>
             </Policies>
         </RollingFile>
 
