@@ -14,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Assert;
+import org.springframework.web.util.NestedServletException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -57,7 +58,7 @@ public class OrderControllerTest extends AbstractTransactionalTestNGSpringContex
     public void testAddNewOrder() throws Exception {
         OrderDTO testOrder = getOrder(getCargo().getPublicId());
         String redirectedUrl = mockMvc.perform(post(restPath + "/").content(asJsonString(testOrder)).contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
+//                .andDo(print())
 //                .andExpect(redirectedUrlPattern(restPath + "/*"))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getRedirectedUrl();
@@ -67,7 +68,14 @@ public class OrderControllerTest extends AbstractTransactionalTestNGSpringContex
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$.publicId", is(testOrder.getPublicId())));
+    }
 
+    @Test(expectedExceptions = NestedServletException.class, expectedExceptionsMessageRegExp = ".*Load point missed")
+    public void testAddNewOrderFailed() throws Exception{
+        OrderDTO testOrder = getOrder(getCargo().getPublicId());
+        testOrder.setLoadCity("");
+        mockMvc.perform(post(restPath + "/").content(asJsonString(testOrder)).contentType(MediaType.APPLICATION_JSON));
+//                .andDo(print())
     }
 
     private static OrderDTO getOrder(String uuid) {
